@@ -1,1 +1,1 @@
-# studentenraad-project
+dit project is gemaakt door Rizwan Hussain en Precious Ajomole
