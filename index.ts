@@ -7,7 +7,7 @@ import { ObjectId } from "mongodb";
 import { User } from "./interface";
 import { loginRouter } from "./routers/loginRouter";
 import { registerRouter } from "./routers/registerRouter";
-import { login, register } from "./database";
+import { connect, login, register } from "./database";
 
 dotenv.config();
 const app: Express = express();
@@ -41,11 +41,6 @@ app.get("/", (req, res) => {
     })
 });
 
-app.get("/login", (req, res) => {
-    res.render("login", {
-        title: "Login"
-    })
-});
 
 app.post("/login", async (req: Request, res: Response) => {
   try {
@@ -78,6 +73,7 @@ app.post("/register", async (req: Request, res: Response) => {
   }
 });
 
-app.listen(app.get("port"), () => {
-    console.log("Server started on http://localhost:" + app.get("port"));
+app.listen(port, async () => {
+    await connect();
+    console.log(`[server] http://localhost:${port}`);
 });
