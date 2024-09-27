@@ -1,26 +1,26 @@
+import express, { Express } from "express";
 import dotenv from "dotenv";
-import express from "express";
-
+import path from "path";
 
 dotenv.config();
-const app = express();
-// Set the view engine for the app
-app.set('view engine', 'ejs');
-// Set the port for the app
-app.set('port', process.env.PORT || 3000);
-// Parse JSON bodies for this app
-app.use(express.json({ limit: '1mb' }));
-// Parse URL-encoded bodies for this app
-app.use(express.urlencoded({ extended: true }));
-// Serve static files from the 'public' directory
-app.use(express.static('public'));
 
-// Define the routes for the app
-app.get('/', (req, res) => {
-  res.render('index');
+const app : Express = express();
+
+app.set("view engine", "ejs");
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "public")));
+app.set("views", path.join(__dirname, "views"));
+
+app.set("port", process.env.PORT ?? 3000);
+
+app.get("/", (req, res) => {
+    res.render("index", {
+        title: "Hello World",
+        message: "Hello World"
+    })
 });
 
-// Start the server
-app.listen(app.get('port'), () => {
-  console.log(`Server started on http://localhost:${app.get('port')}`);
+app.listen(app.get("port"), () => {
+    console.log("Server started on http://localhost:" + app.get("port"));
 });
