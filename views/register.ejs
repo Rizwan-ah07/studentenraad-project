@@ -3,21 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Register</title>
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <main class="login-container"></main>
-        <h2>Login</h2>
-        <form action="/login" method="POST">
+    <main class="register-container">
+        <h2>Register</h2>
+        <form action="/register" method="POST"></form>
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
-            <button type="submit">Login</button>
+            <button type="submit">Register</button>
         </form>
-        <p>Go to <a href="/register"> register</a> page</p>
+        <p>Go to <a href="/login"> login</a> page</p>
     </main>
 </body>
 </html>

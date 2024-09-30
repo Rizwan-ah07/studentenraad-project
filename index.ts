@@ -34,12 +34,17 @@ app.use(session({
 app.use(loginRouter());
 app.use(registerRouter());
 
-app.get("/", (req, res) => {
+app.get("/", secureMiddleware, (req, res) => {
     res.render("index", {
         title: "Hello World",
         message: "Hello World"
     })
 });
+
+app.use((req, res, next) => {
+    res.status(404).render("error", { message: "Page not found" });
+});
+
 
 
 app.post("/login", async (req: Request, res: Response) => {
