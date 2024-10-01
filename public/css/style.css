@@ -1,144 +1,25 @@
-
-/* Home */
-html, body {
-  height: 100%;
-}
-
 body {
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-header {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 10px;
-  align-items: center;
-}
-
-header section {
-  display: flex;
-  align-items: center;
-}
-
-header section nav ul {
-  display: flex;
-  align-items: center;
-}
-
-section nav ul li {
-  list-style: none;
-  margin: 0 10px;
-  padding: 5px;
-}
-
-nav ul li a {
-  text-decoration: none;
-  color: brown;
-  font-weight: bold;
-  font-size: 1.5em;
-}
-
-nav ul li.active {
-  border-bottom: 4px solid brown;
-  border-radius: 5px;
-}
-
-nav ul li:hover {
-  border-bottom: 2px solid brown;
-  padding: 5px;
-  color: white;
-  border-radius: 5px;
-}
-
-nav ul li a:hover {
-  color: black;
-}
-
-header section:nth-child(2) form {
-  display: flex;
-  align-items: center;
-  margin-right: 50px;
-}
-
-header section:nth-child(2) form input[name="search"] {
-  padding: 5px;
-  border-radius: 5px;
-  border: 1px solid brown;
-  margin-right: 5px;
-}
-
-header section:nth-child(2) form button {
-  padding: 5px;
-  border-radius: 5px;
-  border: 1px solid brown;
-  background-color: brown;
-  color: white;
-  cursor: pointer;
-}
-header section:nth-child(2) form button:hover {
-  background-color: white;
-  color: brown;
-}
-
-header section:nth-child(2) p {
-  font-size: 1em;
-  font-weight: bold;
-  margin-right: 10px;
-}
-
-header section:nth-child(2) > button {
-  padding: 5px;
+.card {
+  border: none;
   border-radius: 10px;
-  border: 1px solid brown;
-  background-color: brown;
-  color: white;
-  cursor: pointer;
-  font-size: 1.2em;
-  padding: 5px 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-header section:nth-child(2) > button a {
-  text-decoration: none;
-  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-
-/* Main */
-main {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
 }
 
-
-/* Footer */
-footer {
-  padding: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
 }
 
-footer p {
-  font-size: 1em;
-  font-weight: bold;
-}
-
-footer p a {
-  text-decoration: none;
-  color: brown;
-}
-
-#logout {
-  margin: auto;
-}
-
-.logo{
-  width: 85px;
-  margin-right: 10px;
+.brand-logo {
+  /* Adjust the size and margin as needed */
+  width: 100px;
+  margin-bottom: 20px;
 }
