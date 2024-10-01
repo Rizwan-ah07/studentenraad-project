@@ -14,6 +14,10 @@ export async function findUserByEmail(email: string) {
     return await UserCollection.findOne({ email: email });
 }
 
+export async function findUserByUsername(username: string) {
+    return await UserCollection.findOne({ username: username });
+}
+
 
 async function createInitialUsers() {
     if (await UserCollection.countDocuments() > 0) { return; }
@@ -35,11 +39,11 @@ async function createInitialUsers() {
     ]);
 }
 
-export async function login(email: string, password: string) {
-    if (email === "" || password === "") {
+export async function login(username: string, password: string) {
+    if (username === "" || password === "") {
         throw new Error("Email and password required");
     }
-    let user: User | null = await findUserByEmail(email);
+    let user: User | null = await findUserByUsername(username);
     if (user) {
         if (user.password && await bcrypt.compare(password, user.password)) {
             return user;

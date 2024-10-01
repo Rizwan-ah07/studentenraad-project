@@ -38,7 +38,8 @@ app.use(registerRouter());
 app.get("/", secureMiddleware, (req, res) => {
     res.render("index", {
         title: "Hello World",
-        message: "Hello World"
+        message: "Hello World",
+        username: req.session?.user?.username ?? "Guest"
     })
 });
 
