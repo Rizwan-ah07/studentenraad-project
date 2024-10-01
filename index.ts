@@ -21,7 +21,7 @@ declare module "express-session" {
 }
 
 app.set("view engine", "ejs");
-app.use(express.json());
+app.use(express.json( { limit: "1mb" } ));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.set('views', path.join(__dirname, "views"));
@@ -35,11 +35,10 @@ app.use(session({
 app.use(loginRouter());
 app.use(registerRouter());
 
-app.get("/", /*secureMiddleware, */(req, res) => {
+app.get("/", secureMiddleware, (req, res) => {
     res.render("index", {
         title: "Hello World",
-        message: "Hello World",
-        fontawesome: process.env.FONTAWESOME as string
+        message: "Hello World"
     })
 });
 
