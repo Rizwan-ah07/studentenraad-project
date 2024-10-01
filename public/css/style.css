@@ -1,13 +1,16 @@
 
 /* Home */
+html, body {
+  height: 100%;
+}
 
-header section img {
-  width: 85px;
-  margin-right: 10px;
+body {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
 }
 
 header {
-  background-color: bisque;
   display: flex;
   justify-content: space-between;
   padding: 10px 10px;
@@ -106,20 +109,19 @@ header section:nth-child(2) > button a {
 
 /* Main */
 main {
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 90vh;
 }
 
 
 /* Footer */
 footer {
-  background-color: bisque;
+  padding: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 3vh;
 }
 
 footer p {
@@ -130,4 +132,13 @@ footer p {
 footer p a {
   text-decoration: none;
   color: brown;
+}
+
+#logout {
+  margin: auto;
+}
+
+.logo{
+  width: 85px;
+  margin-right: 10px;
 }
