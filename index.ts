@@ -8,6 +8,7 @@ import { User } from "./interface";
 import { loginRouter } from "./routers/loginRouter";
 import { registerRouter } from "./routers/registerRouter";
 import { connect, login, register } from "./database";
+import { env } from "process";
 
 dotenv.config();
 const app: Express = express();
@@ -37,7 +38,8 @@ app.use(registerRouter());
 app.get("/", /*secureMiddleware, */(req, res) => {
     res.render("index", {
         title: "Hello World",
-        message: "Hello World"
+        message: "Hello World",
+        fontawesome: process.env.FONTAWESOME as string
     })
 });
 
