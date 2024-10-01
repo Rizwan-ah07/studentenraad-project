@@ -45,8 +45,6 @@ app.use((req, res, next) => {
     res.status(404).render("error", { message: "Page not found" });
 });
 
-
-
 app.post("/login", async (req: Request, res: Response) => {
   try {
       const { email, password } = req.body;
@@ -66,8 +64,8 @@ app.post("/login", async (req: Request, res: Response) => {
 
 app.post("/register", async (req: Request, res: Response) => {
   try {
-      const { email, password } = req.body;
-      await register(email, password);
+      const { email, password, username } = req.body;
+      await register(email, password, username); 
       res.redirect("/login");
   } catch (error) {
       if (error instanceof Error) {

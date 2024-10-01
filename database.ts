@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import { User } from "./interface";
 dotenv.config();
 
-export const MONGODB_URI = process.env.MONGO_URI ?? "mongodb://localhost:27017";
+export const MONGODB_URI = process.env.MONGODB_URI ?? "mongodb://localhost:27017";
 const client = new MongoClient(MONGODB_URI);
 const saltRounds: number = 10;
 
@@ -30,8 +30,8 @@ async function createInitialUsers() {
     const userHash = await bcrypt.hash(userPassword, saltRounds);
 
     await UserCollection.insertMany([
-        { email: adminEmail, password: adminHash, role: "ADMIN" },
-        { email: userEmail, password: userHash, role: "USER" }
+        { email: adminEmail, password: adminHash, role: "ADMIN", username: "admin" },
+        { email: userEmail, password: userHash, role: "USER", username: "user" }  
     ]);
 }
 
@@ -51,31 +51,28 @@ export async function login(email: string, password: string) {
     }
 }
 
-
-
-
-export async function register(email: string, password: string) {
-    if (email === "" || password === "") {
-        throw new Error("Email and password required");
+export async function register(email: string, password: string, username: string) {
+    if (email === "" || password === "" || username === "") {
+        throw new Error("Email, password, and username are required");
     }
-    
+
     const existingUser = await findUserByEmail(email);
     if (existingUser) {
         throw new Error("User already exists");
     }
-    
+
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-    
+
     const newUser: User = {
         email: email,
         password: hashedPassword,
+        username: username, 
         role: "USER"
     };
-    
+
     const result = await UserCollection.insertOne(newUser);
     return result.insertedId;
 }
-
 async function exit() {
     try {
         await client.close();

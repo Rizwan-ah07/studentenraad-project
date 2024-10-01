@@ -12,14 +12,16 @@ export function registerRouter(): Router {
     router.post("/register", async (req: Request, res: Response) => {
         const email: string = req.body.email;
         const password: string = req.body.password;
-
+        const username: string = req.body.username;  
+    
         try {
-            await register(email, password);
+            await register(email, password, username);  
             res.redirect("/login");
         } catch (e: any) {
             res.render("register", { error: e.message });
         }
     });
+    
 
     return router;
 }
