@@ -34,7 +34,7 @@ app.use(session({
 app.use(loginRouter());
 app.use(registerRouter());
 
-app.get("/", secureMiddleware, (req, res) => {
+app.get("/", /*secureMiddleware, */(req, res) => {
     res.render("index", {
         title: "Hello World",
         message: "Hello World"

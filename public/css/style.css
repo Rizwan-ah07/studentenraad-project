@@ -1,5 +1,19 @@
 
-img {
-  max-width: 100%;
-  width: 150px;
+header section img {
+  width: 85px;
 }
+
+header {
+  background-color: bisque;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 10px;
+  align-items: center;
+}
+
+header section {
+  display: flex;
+  align-items: center;
+}
+
+header section
