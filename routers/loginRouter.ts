@@ -11,9 +11,9 @@ export function loginRouter(): Router {
     });
 
     router.post("/login", async (req: Request, res: Response) => {
-        const { username, password } = req.body;  // Use username instead of email
+        const { username, password } = req.body;  
         try {
-            const user: User = await login(username, password);  // Pass username to login function
+            const user: User = await login(username, password); 
             delete user.password;
             if (req.session) {
                 req.session.user = user;
