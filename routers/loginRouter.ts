@@ -7,21 +7,20 @@ export function loginRouter(): Router {
     const router = express.Router();
 
     router.get("/login", checkLogin, (req: Request, res: Response) => {
-        res.render("login");
+        res.render("login"); 
     });
 
     router.post("/login", async (req: Request, res: Response) => {
-        const email: string = req.body.email;
-        const password: string = req.body.password;
+        const { email, password } = req.body;  
         try {
-            const user: User = await login(email, password);
-            delete user.password;
+            const user: User = await login(email, password); 
+            delete user.password;  
             if (req.session) {
-                req.session.user = user;
+                req.session.user = user;  
             }
-            res.redirect("/");
+            res.redirect("/");  
         } catch (e: any) {
-            res.redirect("/login");
+            res.render("login", { error: e.message });  
         }
     });
 

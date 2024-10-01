@@ -10,9 +10,7 @@ export function registerRouter(): Router {
     });
 
     router.post("/register", async (req: Request, res: Response) => {
-        const email: string = req.body.email;
-        const password: string = req.body.password;
-        const username: string = req.body.username;  
+        const { email, password, username } = req.body;  
     
         try {
             await register(email, password, username);  
@@ -21,7 +19,6 @@ export function registerRouter(): Router {
             res.render("register", { error: e.message });
         }
     });
-    
 
     return router;
 }
