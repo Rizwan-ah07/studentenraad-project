@@ -6,15 +6,15 @@ export function registerRouter(): Router {
     const router = express.Router();
 
     router.get("/register", checkLogin, (req: Request, res: Response) => {
-        res.render("register");
+        res.render("register", { error: null });  
     });
 
     router.post("/register", async (req: Request, res: Response) => {
-        const { email, password, username } = req.body;  
-    
+        const { email, password, username } = req.body;
+
         try {
-            await register(email, password, username);  
-            res.redirect("/login");
+            await register(email, password, username);
+            res.redirect("/login?message=Registration%20successful");  
         } catch (e: any) {
             res.render("register", { error: e.message });
         }

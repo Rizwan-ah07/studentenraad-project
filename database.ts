@@ -35,18 +35,25 @@ async function createInitialUsers() {
     ]);
 }
 
-export async function login(email: string, password: string) {
-    if (email === "" || password === "") {
-        throw new Error("Email and password required");
+export async function login(username: string, password: string) {
+    if (username === "" || password === "") {
+        throw new Error("Username and password required");
     }
-    let user: User | null = await findUserByEmail(email);
+    console.log("Attempting to find user by username:", username);
+    
+    let user: User | null = await UserCollection.findOne({ username: username });
+    console.log("User found:", user);
+    
     if (user) {
         if (user.password && await bcrypt.compare(password, user.password)) {
+            console.log("Password match!");
             return user;
         } else {
+            console.log("Password incorrect");
             throw new Error("Password incorrect");
         }
     } else {
+        console.log("User not found");
         throw new Error("User not found");
     }
 }

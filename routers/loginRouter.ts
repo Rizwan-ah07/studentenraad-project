@@ -7,26 +7,27 @@ export function loginRouter(): Router {
     const router = express.Router();
 
     router.get("/login", checkLogin, (req: Request, res: Response) => {
-        res.render("login"); 
+        res.render("login", { error: null, message: req.query.message });
     });
 
     router.post("/login", async (req: Request, res: Response) => {
-        const { email, password } = req.body;  
+        const { username, password } = req.body;  // Use username instead of email
         try {
-            const user: User = await login(email, password); 
-            delete user.password;  
+            const user: User = await login(username, password);  // Pass username to login function
+            delete user.password;
             if (req.session) {
-                req.session.user = user;  
+                req.session.user = user;
             }
-            res.redirect("/");  
+            res.redirect("/?message=Login%20successful");
         } catch (e: any) {
-            res.render("login", { error: e.message });  
+            res.render("login", { error: e.message, message: null });
         }
     });
 
+
     router.post("/logout", (req: Request, res: Response) => {
         req.session.destroy(() => {
-            res.redirect("/login");
+            res.redirect("/login?message=Logout%20successful");
         });
     });
 

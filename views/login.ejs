@@ -8,8 +8,17 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <main class="login-container"></main>
+    <main class="login-container">
         <h2>Login</h2>
+
+        <% if (message) { %>
+            <p style="color: green;"><%= message %></p>
+        <% } %>
+        
+        <% if (error) { %>
+            <p style="color: red;"><%= error %></p>
+        <% } %>
+
         <form action="/login" method="POST">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
@@ -17,7 +26,7 @@
             <input type="password" id="password" name="password" required>
             <button type="submit">Login</button>
         </form>
-        <p>Go to <a href="/register"> register</a> page</p>
+        <p>Go to <a href="/register">register</a> page</p>
     </main>
 </body>
 </html>
