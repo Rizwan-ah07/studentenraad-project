@@ -45,36 +45,8 @@ app.use((req, res, next) => {
     res.status(404).render("error", { message: "Page not found" });
 });
 
-app.post("/login", async (req: Request, res: Response) => {
-  try {
-      const { email, password } = req.body;
-      const user = await login(email, password);
-      if (req.session) {
-          req.session.user = user;
-      }
-      res.redirect("/");
-  } catch (error) {
-      if (error instanceof Error) {
-          res.status(401).send(error.message);
-      } else {
-          res.status(401).send("Unknown error occurred");
-      }
-  }
-});
 
-app.post("/register", async (req: Request, res: Response) => {
-  try {
-      const { email, password, username } = req.body;
-      await register(email, password, username); 
-      res.redirect("/login");
-  } catch (error) {
-      if (error instanceof Error) {
-          res.status(400).send(error.message);
-      } else {
-          res.status(400).send("Unknown error occurred");
-      }
-  }
-});
+
 
 app.listen(port, async () => {
     await connect();
