@@ -34,3 +34,39 @@ const nouns = [
     
             document.getElementById('username').value = randomUsername;
         });
+
+
+        document.getElementById('registerForm').addEventListener('submit', function(event) {
+
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('passwordConfirm').value;
+            const passwordError = document.getElementById('passwordError');
+
+
+            if (password !== confirmPassword) {
+                passwordError.style.display = 'block';
+                event.preventDefault(); 
+            } else {
+                passwordError.style.display = 'none'; 
+            }
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', function(event) {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('passwordConfirm').value;
+            const passwordError = document.getElementById('passwordError');
+
+            if (password !== confirmPassword) {
+                passwordError.innerHTML = "Passwords do not match.";
+                passwordError.style.display = 'block';
+                event.preventDefault();
+            } 
+            else if (password.length < 8) {
+                passwordError.innerHTML = "Password must be at least 8 characters long.";
+                passwordError.style.display = 'block';
+                event.preventDefault();
+            } 
+            else {
+                passwordError.style.display = 'none'; 
+            }
+        });
