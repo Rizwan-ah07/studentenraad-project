@@ -7,6 +7,7 @@ import { ObjectId } from "mongodb";
 import { User } from "./interface";
 import { loginRouter } from "./routers/loginRouter";
 import { registerRouter } from "./routers/registerRouter";
+import { adminRouter } from "./routers/adminRouter";
 import { connect } from "./database";
 import { env } from "process";
 
@@ -34,6 +35,7 @@ app.use(session({
 
 app.use(loginRouter());
 app.use(registerRouter());
+app.use(adminRouter());
 
 app.get("/", secureMiddleware, (req, res) => {
     res.render("index", {

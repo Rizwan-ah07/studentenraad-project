@@ -1,6 +1,7 @@
 import express, { Router, Request, Response } from "express";
 import { register } from "../database";
 import { checkLogin } from "../middleware/secureMiddleware";
+import { findUserByUsername } from "../database";
 
 export function registerRouter(): Router {
     const router = express.Router();
@@ -13,10 +14,10 @@ export function registerRouter(): Router {
         const { email, password, username } = req.body;
 
         try {
+            // Check if email is from school
             if (!email.endsWith('@ap.be')) {
-                throw new Error("Je moet een email gebruiken met je school email die begint met s en eidigt met @ap.be.");
+                throw new Error("Gebruik je school email die begint met 's' en eidigt met @ap.be.");
             }
-
             await register(email, password, username);
             res.redirect("/login?message=Registration%20successful");  
         } catch (e: any) {

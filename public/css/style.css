@@ -106,6 +106,39 @@ header section:nth-child(2) > button a {
   color: white;
 }
 
+body {
+  background-color: #f8f9fa;
+}
+.register-container {
+  margin-top: 80px;
+}
+.form-card {
+  padding: 20px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+.brand-logo {
+  width: 80px;
+  margin-bottom: 20px;
+}
+.form-control {
+  margin-bottom: 15px;
+}
+.random-button {
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.row {
+  width: 100%;
+}
+
+.error-message {
+  color: red;
+  display: none; 
+}
+
 
 /* Main */
 main {
@@ -115,6 +148,31 @@ main {
   align-items: center;
 }
 
+.add-post-section {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.add-post-button {
+  background-color: #D15454; /* Match the red color in the image */
+  color: white;
+  font-size: 18px;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.add-post-button:hover {
+  background-color: #B94545; /* Slightly darker red on hover */
+}
+
+.add-post-button i{
+  font-size: 1.5em;
+}
 
 /* Footer */
 footer {

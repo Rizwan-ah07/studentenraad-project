@@ -7,28 +7,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/style.css">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .login-container {
-            margin-top: 100px;
-        }
-        .form-card {
-            padding: 20px;
-            background-color: white;
-            border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        .brand-logo {
-            width: 80px;
-            margin-bottom: 20px;
-        }
-
-        .row {
-            width: 100%;
-        }
-    </style>
 </head>
 <body>
 
@@ -52,11 +30,11 @@
                     <% } %>
                     <form action="/login" method="POST" class="mt-4">
                         <fieldset class="form-group">
-                            <label for="loginIdentifier">Email or Username</label>
+                            <label for="loginIdentifier" class="mb-2">Email or Username</label>
                             <input type="text" class="form-control" id="loginIdentifier" name="loginIdentifier" required autofocus>
                         </fieldset>
                         <fieldset class="form-group">
-                            <label for="password">Password</label>
+                            <label for="password" class="mb-2">Password</label>
                             <input type="password" class="form-control" id="password" name="password" required>
                         </fieldset>
                         <button type="submit" class="btn btn-primary btn-block">Login</button>

@@ -8,40 +8,6 @@
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/style.css">
     <script src="https://kit.fontawesome.com/380b1a3386.js" crossorigin="anonymous"></script>
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .register-container {
-            margin-top: 80px;
-        }
-        .form-card {
-            padding: 20px;
-            background-color: white;
-            border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        .brand-logo {
-            width: 80px;
-            margin-bottom: 20px;
-        }
-        .form-control {
-            margin-bottom: 15px;
-        }
-        .random-button {
-            margin-left: 10px;
-            cursor: pointer;
-        }
-
-        .row {
-            width: 100%;
-        }
-
-        .error-message {
-            color: red;
-            display: none; 
-        }
-    </style>
 </head>
 <body>
 
@@ -61,23 +27,23 @@
                     <form id="registerForm" action="/register" method="POST" class="mt-4">
                         <fieldset class="form-group d-flex align-items-center">
                             <label for="username" class="mr-2">Username</label>
-                            <input type="text" class="form-control" id="username" name="username" required autofocus>
+                            <input type="text" class="form-control mb-0" id="username" name="username" required autofocus>
                             <button type="button" id="random-username-btn" class="btn btn-light random-button">
                                 <i class="fas fa-dice"></i>
                             </button>
                         </fieldset>
                         <fieldset class="form-group">
-                            <label for="email">School Email</label>
+                            <label for="email" class="mb-2">School Email</label>
                             <input type="email" class="form-control" id="email" name="email" required>
                         </fieldset>
 
                         <section class="form-row">
                             <fieldset class="form-group col-md-6">
-                                <label for="password">Password</label>
+                                <label for="password" class="mb-2">Password</label>
                                 <input type="password" class="form-control" id="password" name="password" required>
                             </fieldset>
                             <fieldset class="form-group col-md-6">
-                                <label for="passwordConfirm">Confirm Password</label>
+                                <label for="passwordConfirm" class="mb-2">Confirm Password</label>
                                 <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" required>
                             </fieldset>
                         </section>

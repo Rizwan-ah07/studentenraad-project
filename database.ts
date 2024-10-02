@@ -18,6 +18,10 @@ export async function findUserByUsername(username: string) {
     return await UserCollection.findOne({ username: username });
 }
 
+export async function getAllUsers() {
+    return await UserCollection.find().toArray();
+}
+
 async function createInitialUsers() {
     if (await UserCollection.countDocuments() > 0) { return; }
     
