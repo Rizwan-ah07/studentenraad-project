@@ -10,6 +10,7 @@ import { registerRouter } from "./routers/registerRouter";
 import { adminRouter } from "./routers/adminRouter";
 import { connect } from "./database";
 import { env } from "process";
+import { suggestionsRouter } from "./routers/suggestionRouter";
 
 dotenv.config();
 const app: Express = express();
@@ -36,6 +37,7 @@ app.use(session({
 app.use(loginRouter());
 app.use(registerRouter());
 app.use(adminRouter());
+app.use(suggestionsRouter());
 
 app.get("/", secureMiddleware, (req, res) => {
     res.render("index", {
@@ -44,6 +46,8 @@ app.get("/", secureMiddleware, (req, res) => {
         username: req.session?.user?.username ?? "Guest"
     })
 });
+
+
 
 app.use((req, res, next) => {
     res.status(404).render("error", { message: "Page not found" });

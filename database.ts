@@ -1,6 +1,8 @@
 import { Collection, MongoClient, ObjectId } from "mongodb";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
+import crypto from "crypto";
+import nodemailer from "nodemailer";
 import { User } from "./interface";
 dotenv.config();
 
@@ -24,7 +26,7 @@ export async function getAllUsers() {
 
 async function createInitialUsers() {
     if (await UserCollection.countDocuments() > 0) { return; }
-    
+
     const adminEmail = process.env.ADMIN_EMAIL;
     const adminPassword = process.env.ADMIN_PASSWORD;
     const secondAdminEmail = process.env.SECOND_ADMIN_EMAIL;
@@ -33,7 +35,7 @@ async function createInitialUsers() {
     const userPassword = process.env.USER_PASSWORD;
 
     if (!adminEmail || !adminPassword || !secondAdminEmail || !secondAdminPassword || !userEmail || !userPassword) {
-        throw new Error("All admin and user email/password must be set in the environment");
+        throw new Error("Admin and User email or password must be set in the environment");
     }
 
     const adminHash = await bcrypt.hash(adminPassword, saltRounds);
@@ -41,9 +43,9 @@ async function createInitialUsers() {
     const userHash = await bcrypt.hash(userPassword, saltRounds);
 
     await UserCollection.insertMany([
-        { email: adminEmail, password: adminHash, role: "ADMIN", username: "Rizwan" },
-        { email: secondAdminEmail, password: secondAdminHash, role: "ADMIN", username: "Precious" },
-        { email: userEmail, password: userHash, role: "USER", username: "user" }
+        { email: adminEmail, password: adminHash, role: "ADMIN", username: "Rizwan", verified: true },
+        { email: secondAdminEmail, password: secondAdminHash, role: "ADMIN", username: "Precious", verified: true },
+        { email: userEmail, password: userHash, role: "USER", username: "user", verified: true }
     ]);
 }
 
@@ -51,8 +53,8 @@ export async function loginWithEmailOrUsername(loginIdentifier: string, password
     if (loginIdentifier === "" || password === "") {
         throw new Error("Email/Username and password required");
     }
-    const isEmail = loginIdentifier.includes("@");
 
+    const isEmail = loginIdentifier.includes("@");
     let user: User | null;
 
     if (isEmail) {
@@ -61,10 +63,18 @@ export async function loginWithEmailOrUsername(loginIdentifier: string, password
         user = await findUserByUsername(loginIdentifier);
     }
 
-    if (user && user.password && await bcrypt.compare(password, user.password)) {
+    if (!user) {
+        throw new Error("User not found.");
+    }
+
+    if (!user.verified) {
+        throw new Error("Your email has not been verified. Please check your inbox.");
+    }
+
+    if (user.password && await bcrypt.compare(password, user.password)) {
         return user;
     } else {
-        throw new Error("Invalid email/username or password");
+        throw new Error("Invalid password.");
     }
 }
 
@@ -90,16 +100,43 @@ export async function register(email: string, password: string, username: string
     }
 
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-
+    const verificationToken = crypto.randomBytes(32).toString("hex"); 
     const newUser: User = {
         email: email,
         password: hashedPassword,
         username: username,
-        role: "USER"
+        role: "USER",
+        verified: false,  // Mark as not verified
+        verificationToken: verificationToken
     };
 
     const result = await UserCollection.insertOne(newUser);
+
+    sendVerificationEmail(email, verificationToken);
+
     return result.insertedId;
+}
+
+async function sendVerificationEmail(email: string, token: string) {
+    const verificationUrl = `http://yourdomain.com/verify?token=${token}`;
+
+    const transporter = nodemailer.createTransport({
+        service: "Gmail",
+        auth: {
+            user: process.env.SMTP_USER,
+            pass: process.env.SMTP_PASSWORD
+        }
+    });
+
+    const mailOptions = {
+        from: process.env.SMTP_USER,
+        to: email,
+        subject: "Email Verification",
+        text: `Please verify your email by clicking the link: ${verificationUrl}`,
+        html: `<p>Please verify your email by clicking the link: <a href="${verificationUrl}">${verificationUrl}</a></p>`
+    };
+
+    await transporter.sendMail(mailOptions);
 }
 
 async function exit() {
