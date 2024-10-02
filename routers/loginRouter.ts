@@ -1,5 +1,5 @@
 import express, { Router, Request, Response } from "express";
-import { login } from "../database";
+import { loginWithEmailOrUsername } from "../database"; 
 import { checkLogin } from "../middleware/secureMiddleware";
 import { User } from "../interface";
 
@@ -11,9 +11,10 @@ export function loginRouter(): Router {
     });
 
     router.post("/login", async (req: Request, res: Response) => {
-        const { username, password } = req.body;  
+        const { loginIdentifier, password } = req.body;  
+
         try {
-            const user: User = await login(username, password); 
+            const user: User = await loginWithEmailOrUsername(loginIdentifier, password);
             delete user.password;
             if (req.session) {
                 req.session.user = user;
@@ -23,7 +24,6 @@ export function loginRouter(): Router {
             res.render("login", { error: e.message, message: null });
         }
     });
-
 
     router.post("/logout", (req: Request, res: Response) => {
         req.session.destroy(() => {

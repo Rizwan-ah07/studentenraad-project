@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Login - Student Council Portal</title>
-    <!-- Bootstrap CSS -->
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/style.css">
     <style>
         body {
@@ -23,6 +23,10 @@
         .brand-logo {
             width: 80px;
             margin-bottom: 20px;
+        }
+
+        .row {
+            width: 100%;
         }
     </style>
 </head>
@@ -48,8 +52,8 @@
                     <% } %>
                     <form action="/login" method="POST" class="mt-4">
                         <fieldset class="form-group">
-                            <label for="username">Username</label>
-                            <input type="text" class="form-control" id="username" name="username" required autofocus>
+                            <label for="loginIdentifier">Email or Username</label>
+                            <input type="text" class="form-control" id="loginIdentifier" name="loginIdentifier" required autofocus>
                         </fieldset>
                         <fieldset class="form-group">
                             <label for="password">Password</label>

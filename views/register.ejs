@@ -32,6 +32,15 @@
             margin-left: 10px;
             cursor: pointer;
         }
+
+        .row {
+            width: 100%;
+        }
+
+        .error-message {
+            color: red;
+            display: none; 
+        }
     </style>
 </head>
 <body>
@@ -49,7 +58,7 @@
                             <%= error %>
                         </aside>
                     <% } %>
-                    <form action="/register" method="POST" class="mt-4">
+                    <form id="registerForm" action="/register" method="POST" class="mt-4">
                         <fieldset class="form-group d-flex align-items-center">
                             <label for="username" class="mr-2">Username</label>
                             <input type="text" class="form-control" id="username" name="username" required autofocus>
@@ -72,6 +81,8 @@
                                 <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" required>
                             </fieldset>
                         </section>
+
+                        <p id="passwordError" class="error-message">Passwords do not match. Please try again.</p>
                         <button type="submit" class="btn btn-success btn-block">Register</button>
                         <p class="text-center mt-3">
                             Already have an account? <a href="/login">Login here</a>
@@ -86,6 +97,7 @@
     <script src="https://cdn.jsdelivr.net/npm/[email protected]/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <script src="js/script.js" defer></script>
+
 
 </body>
 </html>

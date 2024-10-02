@@ -7,7 +7,7 @@ import { ObjectId } from "mongodb";
 import { User } from "./interface";
 import { loginRouter } from "./routers/loginRouter";
 import { registerRouter } from "./routers/registerRouter";
-import { connect, login, register } from "./database";
+import { connect } from "./database";
 import { env } from "process";
 
 dotenv.config();
