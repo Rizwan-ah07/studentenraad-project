@@ -17,6 +17,9 @@
         <ul>
           <li class="active"><a href="/">Posts</a></li>
           <li><a href="/about">Feedback</a></li>
+          <% if (role === 'ADMIN') { %>
+          <li><a href="/admin">Admin</a></li>
+          <% } %>
         </ul>
       </nav>
     </section>
@@ -33,7 +36,9 @@
   </header>
   <main>
     <section class="add-post-section">
-      <button class="add-post-button"><i class="fa-solid fa-plus"></i><p>Voeg een post</p></button>
+      <button class="add-post-button"><i class="fa-solid fa-plus"></i>
+        <p>Voeg een post</p>
+      </button>
     </section>
   </main>
 

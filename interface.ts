@@ -7,3 +7,10 @@ export interface User {
     username: string; 
     password?: string;
 }
+
+export interface Post {
+    _id?: ObjectId;
+    title: string;
+    author: string;
+    content: string;
+}
