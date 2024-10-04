@@ -7,6 +7,7 @@ import { loginRouter } from "./routers/loginRouter";
 import { registerRouter } from "./routers/registerRouter";
 import { suggestionsRouter } from "./routers/suggestionRouter";
 import { verifyRouter } from "./routers/verifyRouter";
+import { adminRouter } from "./routers/adminRouter";
 import { connect } from "./database";
 
 
@@ -35,6 +36,7 @@ app.use(session({
 app.use(loginRouter());
 app.use(registerRouter());
 app.use(suggestionsRouter());
+app.use(adminRouter());
 app.use(verifyRouter());
 
 app.get("/", secureMiddleware, (req, res) => {

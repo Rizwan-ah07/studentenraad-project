@@ -119,9 +119,9 @@ export async function loginWithEmailOrUsername(loginIdentifier: string, password
     let user: User | null;
 
     if (isEmail) {
-        user = await findUserByEmail(loginIdentifier);
+        user = await findUserByEmail(loginIdentifier.toLowerCase());
     } else {
-        user = await findUserByUsername(loginIdentifier);
+        user = await findUserByUsername(loginIdentifier.toLowerCase());
     }
 
     if (!user) {
@@ -163,9 +163,9 @@ export async function register(email: string, password: string, username: string
     const verificationToken = crypto.randomBytes(32).toString("hex");
 
     const newUser: User = {
-        email: email,
+        email: email.toLowerCase(),
         password: hashedPassword,
-        username: username,
+        username: username.toLowerCase(),
         role: "USER",
         verified: false,
         verificationToken: verificationToken
