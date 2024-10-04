@@ -2,15 +2,13 @@ import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import path from "path";
 import session from "express-session";
-import { secureMiddleware, checkLogin, ensureAdmin } from "./middleware/secureMiddleware";
-import { ObjectId } from "mongodb";
-import { User } from "./interface";
+import { secureMiddleware, checkLogin } from "./middleware/secureMiddleware";
 import { loginRouter } from "./routers/loginRouter";
 import { registerRouter } from "./routers/registerRouter";
-import { adminRouter } from "./routers/adminRouter";
-import { connect } from "./database";
-import { env } from "process";
 import { suggestionsRouter } from "./routers/suggestionRouter";
+import { verifyRouter } from "./routers/verifyRouter";
+import { connect } from "./database";
+
 
 dotenv.config();
 const app: Express = express();
@@ -23,7 +21,7 @@ declare module "express-session" {
 }
 
 app.set("view engine", "ejs");
-app.use(express.json( { limit: "1mb" } ));
+app.use(express.json({ limit: "1mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.set('views', path.join(__dirname, "views"));
@@ -36,8 +34,8 @@ app.use(session({
 
 app.use(loginRouter());
 app.use(registerRouter());
-app.use(adminRouter());
 app.use(suggestionsRouter());
+app.use(verifyRouter());
 
 app.get("/", secureMiddleware, (req, res) => {
     res.render("index", {
@@ -48,13 +46,9 @@ app.get("/", secureMiddleware, (req, res) => {
 });
 
 
-
-app.use((req, res, next) => {
+app.use((req, res) => {
     res.status(404).render("error", { message: "Page not found" });
 });
-
-
-
 
 app.listen(port, async () => {
     await connect();
