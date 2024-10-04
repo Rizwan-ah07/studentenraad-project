@@ -169,7 +169,7 @@ async function sendVerificationEmail(email: string, token: string) {
         console.log("Transporter created");
 
         const mailOptions = {
-            from: `"Studentenrqqd - Project" <${process.env.SMTP_USER}>`,
+            from: `"Studentenraad - Project" <${process.env.SMTP_USER}>`,
             to: email,
             subject: "Email Verification",
             text: `Please verify your email by clicking the link: ${verificationUrl}`,
