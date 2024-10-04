@@ -5,7 +5,20 @@ export interface User {
     email: string;
     username: string;
     password?: string;
+
     role: "ADMIN" | "USER";
     verified: boolean;
     verificationToken?: string;
+    
+
 }
+
+    export interface Post {
+    _id?: ObjectId;
+    title: string;
+    author: string;
+    content: string;
+}
+
+
+

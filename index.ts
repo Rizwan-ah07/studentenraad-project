@@ -41,7 +41,8 @@ app.get("/", secureMiddleware, (req, res) => {
     res.render("index", {
         title: "Hello World",
         message: "Hello World",
-        username: req.session?.user?.username ?? "Guest"
+        username: req.session?.user?.username ?? "Guest",
+        role : req.session?.user?.role ?? "Guest"
     })
 });
 

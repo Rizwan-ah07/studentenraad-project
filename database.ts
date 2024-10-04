@@ -4,8 +4,8 @@ import bcrypt from "bcrypt";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
-import { User } from "./interface";
 import { google } from "googleapis";
+import { User, Post } from "./interface";
 dotenv.config();
 
 export const MONGODB_URI = process.env.MONGODB_URI ?? "mongodb://localhost:27017";
@@ -13,6 +13,7 @@ const client = new MongoClient(MONGODB_URI);
 const saltRounds: number = 10;
 
 export const UserCollection: Collection<User> = client.db("studentenraad-project").collection<User>("users");
+export const PostCollection: Collection<any> = client.db("studentenraad-project").collection<Post>("posts");
 
 export async function findUserByEmail(email: string) {
     return await UserCollection.findOne({ email: email });
@@ -22,8 +23,56 @@ export async function findUserByUsername(username: string) {
     return await UserCollection.findOne({ username: username });
 }
 
+export async function findRoleByUsername(username: string) {
+    const user = await UserCollection.findOne({ username: username });
+    return user?.role;
+}
+
 export async function getAllUsers() {
     return await UserCollection.find().toArray();
+}
+
+export async function getAllPosts() {
+    return await PostCollection.find().toArray();
+}
+
+export async function updateUser(username: string, email: string, role: "ADMIN" | "USER") {
+    const user = await UserCollection.findOne({ username: username });
+    if (!user) {
+        throw new Error("User not found");
+    }
+
+    const update = {
+        $set: {
+            email: email,
+            role: role
+        }
+    };
+
+    try {
+        await UserCollection.updateOne({ username: username }, update);
+    }
+    catch (error) {
+        throw new Error("Error updating user");
+    }
+}
+
+export async function deleteUser(username: string) {
+    try {
+        await UserCollection.deleteOne({ username: username });
+    }
+    catch (error) {
+        throw new Error("Error deleting user");
+    }
+}
+
+export async function deletePost(postId: string) {
+    try {
+        await PostCollection.deleteOne({ _id: new ObjectId(postId) });
+    }
+    catch (error) {
+        throw new Error("Error deleting post");
+    }
 }
 
 async function createInitialUsers() {
@@ -48,6 +97,16 @@ async function createInitialUsers() {
         { email: adminEmail, password: adminHash, role: "ADMIN", username: "Rizwan", verified: true },
         { email: secondAdminEmail, password: secondAdminHash, role: "ADMIN", username: "Precious", verified: true },
         { email: userEmail, password: userHash, role: "USER", username: "user", verified: true }
+    ]);
+}
+
+async function createInitialPosts() {
+    if (await PostCollection.countDocuments() > 0) { return; }
+
+    await PostCollection.insertMany([
+        { title: "First Post", author: "Rizwan", content: "This is the first post" },
+        { title: "Second Post", author: "Precious", content: "This is the second post" },
+        { title: "Third Post", author: "Rizwan", content: "This is the third post" }
     ]);
 }
 
@@ -202,6 +261,7 @@ export async function connect() {
     try {
         await client.connect();
         await createInitialUsers();
+        await createInitialPosts();
         console.log("Connected to the database");
         process.on('SIGINT', exit);
     } catch (error) {

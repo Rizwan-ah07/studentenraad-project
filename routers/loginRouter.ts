@@ -19,7 +19,8 @@ export function loginRouter(): Router {
             if (req.session) {
                 req.session.user = user;
             }
-            res.redirect("/?message=Login%20successful");
+            //res.redirect("/?message=Login%20successful");
+            res.redirect("/");
         } catch (e: any) {
             res.render("login", { error: e.message, message: null });
         }

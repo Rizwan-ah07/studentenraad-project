@@ -1,8 +1,10 @@
 import { NextFunction, Request, Response } from "express";
+import { findRoleByUsername } from "../database";
 
-export function secureMiddleware(req: Request, res: Response, next: NextFunction) {
+export async function secureMiddleware(req: Request, res: Response, next: NextFunction) {
     if (req.session.user) {
         res.locals.user = req.session.user;
+        req.session.user.role = await findRoleByUsername(req.session.user.username);
         next();
     } else {
         res.redirect("/login");
