@@ -14,9 +14,9 @@ export function registerRouter(): Router {
         const { email, password, username } = req.body;
 
         try {
-            // Check if email is from school
+
             if (!email.endsWith('@ap.be')) {
-                throw new Error("Gebruik je school email die begint met 's' en eidigt met @ap.be.");
+                throw new Error("Gebruik je school email die begint met 's' en eidigt met @student.ap.be.");
             }
             await register(email, password, username);
             res.redirect("/login?message=Registration%20successful");  

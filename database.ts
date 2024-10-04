@@ -1,6 +1,10 @@
 import { Collection, MongoClient, ObjectId } from "mongodb";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
+import crypto from "crypto";
+import nodemailer from "nodemailer";
+import SMTPTransport from "nodemailer/lib/smtp-transport";
+import { google } from "googleapis";
 import { User, Post } from "./interface";
 dotenv.config();
 
@@ -73,7 +77,7 @@ export async function deletePost(postId: string) {
 
 async function createInitialUsers() {
     if (await UserCollection.countDocuments() > 0) { return; }
-    
+
     const adminEmail = process.env.ADMIN_EMAIL;
     const adminPassword = process.env.ADMIN_PASSWORD;
     const secondAdminEmail = process.env.SECOND_ADMIN_EMAIL;
@@ -82,7 +86,7 @@ async function createInitialUsers() {
     const userPassword = process.env.USER_PASSWORD;
 
     if (!adminEmail || !adminPassword || !secondAdminEmail || !secondAdminPassword || !userEmail || !userPassword) {
-        throw new Error("All admin and user email/password must be set in the environment");
+        throw new Error("Admin and User email or password must be set in the environment");
     }
 
     const adminHash = await bcrypt.hash(adminPassword, saltRounds);
@@ -90,9 +94,9 @@ async function createInitialUsers() {
     const userHash = await bcrypt.hash(userPassword, saltRounds);
 
     await UserCollection.insertMany([
-        { email: adminEmail, password: adminHash, role: "ADMIN", username: "Rizwan" },
-        { email: secondAdminEmail, password: secondAdminHash, role: "ADMIN", username: "Precious" },
-        { email: userEmail, password: userHash, role: "USER", username: "user" }
+        { email: adminEmail, password: adminHash, role: "ADMIN", username: "Rizwan", verified: true },
+        { email: secondAdminEmail, password: secondAdminHash, role: "ADMIN", username: "Precious", verified: true },
+        { email: userEmail, password: userHash, role: "USER", username: "user", verified: true }
     ]);
 }
 
@@ -110,8 +114,8 @@ export async function loginWithEmailOrUsername(loginIdentifier: string, password
     if (loginIdentifier === "" || password === "") {
         throw new Error("Email/Username and password required");
     }
-    const isEmail = loginIdentifier.includes("@");
 
+    const isEmail = loginIdentifier.includes("@");
     let user: User | null;
 
     if (isEmail) {
@@ -120,14 +124,23 @@ export async function loginWithEmailOrUsername(loginIdentifier: string, password
         user = await findUserByUsername(loginIdentifier);
     }
 
-    if (user && user.password && await bcrypt.compare(password, user.password)) {
+    if (!user) {
+        throw new Error("User not found.");
+    }
+
+    if (!user.verified) {
+        throw new Error("Your email has not been verified. Please check your inbox.");
+    }
+
+    if (user.password && await bcrypt.compare(password, user.password)) {
         return user;
     } else {
-        throw new Error("Invalid email/username or password");
+        throw new Error("Invalid password.");
     }
 }
 
 export async function register(email: string, password: string, username: string) {
+    console.log("Register function called with:", email, username);
     if (email === "" || password === "" || username === "") {
         throw new Error("Email, password, and username are required");
     }
@@ -136,30 +149,103 @@ export async function register(email: string, password: string, username: string
         throw new Error("Password must be at least 8 characters long");
     }
 
-    // Check if the email is already registered
     const existingUserByEmail = await findUserByEmail(email);
     if (existingUserByEmail) {
         throw new Error("User with this email already exists");
     }
 
-    // Check if the username is already registered
     const existingUserByUsername = await findUserByUsername(username);
     if (existingUserByUsername) {
         throw new Error("Username is already taken. Please choose a different username.");
     }
 
     const hashedPassword = await bcrypt.hash(password, saltRounds);
+    const verificationToken = crypto.randomBytes(32).toString("hex");
 
     const newUser: User = {
         email: email,
         password: hashedPassword,
         username: username,
-        role: "USER"
+        role: "USER",
+        verified: false,
+        verificationToken: verificationToken
     };
 
     const result = await UserCollection.insertOne(newUser);
+
+    console.log("Calling sendVerificationEmail with:", email, verificationToken);
+    await sendVerificationEmail(email, verificationToken);
+
     return result.insertedId;
 }
+
+
+async function sendVerificationEmail(email: string, token: string) {
+    try {
+        console.log("Starting email verification process...");
+
+        const verificationUrl = `http://localhost:${process.env.PORT || 3000}/verify?token=${token}`;
+        console.log("Verification URL: ", verificationUrl);
+
+        const oauth2Client = new google.auth.OAuth2(
+            process.env.CLIENT_ID!,
+            process.env.CLIENT_SECRET!,
+            "https://developers.google.com/oauthplayground" // Redirect URL
+        );
+
+        console.log("OAuth2 client initialized");
+
+        oauth2Client.setCredentials({
+            refresh_token: process.env.REFRESH_TOKEN!,
+        });
+
+        const accessTokenResponse = await oauth2Client.getAccessToken();
+        const accessToken = accessTokenResponse?.token;
+
+        if (!accessToken) {
+            throw new Error("Failed to retrieve access token");
+        }
+
+        console.log("Access token retrieved: ", accessToken);
+
+        const smtpOptions: SMTPTransport.Options = {
+            host: "smtp.gmail.com",
+            port: 587, 
+            secure: false, 
+            auth: {
+                type: "OAuth2",
+                user: process.env.SMTP_USER!,
+                clientId: process.env.CLIENT_ID!,
+                clientSecret: process.env.CLIENT_SECRET!,
+                refreshToken: process.env.REFRESH_TOKEN!,
+                accessToken: accessToken,
+            },
+        };
+
+        console.log("SMTP options set");
+
+        const transporter = nodemailer.createTransport(smtpOptions);
+        console.log("Transporter created");
+
+        const mailOptions = {
+            from: `"Studentenraad - Project" <${process.env.SMTP_USER}>`,
+            to: email,
+            subject: "Email Verification",
+            text: `Please verify your email by clicking the link: ${verificationUrl}`,
+            html: `<p>Please verify your email by clicking the link: <a href="${verificationUrl}">${verificationUrl}</a></p>`,
+        };
+
+        console.log("Mail options set");
+
+        await transporter.sendMail(mailOptions);
+        console.log("Email sent successfully");
+
+    } catch (error) {
+        console.error("Error in sendVerificationEmail:", error);
+        throw error;
+    }
+}
+
 
 async function exit() {
     try {
@@ -182,3 +268,7 @@ export async function connect() {
         console.log('Error connecting to the database: ' + error);
     }
 }
+function sendEmail(email: string, arg1: string, arg2: string, arg3: string) {
+    throw new Error("Function not implemented.");
+}
+
