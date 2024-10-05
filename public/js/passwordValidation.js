@@ -1,9 +1,14 @@
-// Password Strength Meter
+// Password Strength Meter for Reset Password Form
 document.addEventListener('DOMContentLoaded', () => {
     const passwordInput = document.getElementById('newPassword');
     const passwordConfirmInput = document.getElementById('confirmPassword');
     const passwordError = document.getElementById('passwordError');
     const passwordRequirements = document.getElementById('passwordHelp');
+
+    // Ensure that elements exist before proceeding
+    if (!passwordInput || !passwordConfirmInput || !passwordError || !passwordRequirements) {
+        return; // Exit if any element is missing
+    }
 
     const requirements = {
         length: {
@@ -83,21 +88,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Reset password form submit
     const resetPasswordForm = document.getElementById('resetPasswordForm');
-    resetPasswordForm.addEventListener('submit', (event) => {
+    if (resetPasswordForm) {
+        resetPasswordForm.addEventListener('submit', (event) => {
 
-        const allValid = Object.keys(requirements).every(key => requirements[key].regex.test(passwordInput.value));
+            const allValid = Object.keys(requirements).every(key => requirements[key].regex.test(passwordInput.value));
 
-        if (!allValid) {
-            event.preventDefault();
-            alert('Please ensure your password meets all requirements.');
-            passwordRequirements.style.display = 'block';
-        }
+            if (!allValid) {
+                event.preventDefault();
+                alert('Please ensure your password meets all requirements.');
+                passwordRequirements.style.display = 'block';
+            }
 
-        // Check password match
-        if (passwordInput.value !== passwordConfirmInput.value) {
-            event.preventDefault();
-            passwordError.style.display = 'block';
-            passwordConfirmInput.classList.add('is-invalid');
-        }
-    });
+            // Check password match
+            if (passwordInput.value !== passwordConfirmInput.value) {
+                event.preventDefault();
+                passwordError.style.display = 'block';
+                passwordConfirmInput.classList.add('is-invalid');
+            }
+        });
+    }
 });

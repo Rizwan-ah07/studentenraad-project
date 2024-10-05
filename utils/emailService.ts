@@ -72,3 +72,60 @@ export async function sendResetPasswordEmail(email: string, token: string) {
         throw error;
     }
 }
+
+export async function sendPasswordResetConfirmationEmail(email: string) {
+    try {
+        console.log("Starting password reset confirmation email process...");
+
+        const confirmationUrl = `http://apstudentenraad.onrender.com/login`;
+        console.log("Confirmation URL: ", confirmationUrl);
+
+        const oauth2Client = new google.auth.OAuth2(
+            process.env.CLIENT_ID!,
+            process.env.CLIENT_SECRET!,
+            "https://developers.google.com/oauthplayground" // Redirect URL
+        );
+
+        oauth2Client.setCredentials({
+            refresh_token: process.env.REFRESH_TOKEN!,
+        });
+
+        const accessTokenResponse = await oauth2Client.getAccessToken();
+        const accessToken = accessTokenResponse?.token;
+
+        if (!accessToken) {
+            throw new Error("Failed to retrieve access token");
+        }
+
+        const smtpOptions: SMTPTransport.Options = {
+            host: "smtp.gmail.com",
+            port: 587,
+            secure: false,
+            auth: {
+                type: "OAuth2",
+                user: process.env.SMTP_USER!,
+                clientId: process.env.CLIENT_ID!,
+                clientSecret: process.env.CLIENT_SECRET!,
+                refreshToken: process.env.REFRESH_TOKEN!,
+                accessToken: accessToken,
+            },
+        };
+
+        const transporter = nodemailer.createTransport(smtpOptions);
+
+        const mailOptions = {
+            from: `"Studentenraad - Project" <${process.env.SMTP_USER}>`,
+            to: email,
+            subject: "Password Successfully Reset",
+            text: `Your password has been successfully reset. If you did not perform this action, please contact support immediately.`,
+            html: `<p>Your password has been successfully reset. If you did not perform this action, please contact support immediately.</p>`,
+        };
+
+        await transporter.sendMail(mailOptions);
+        console.log("Password reset confirmation email sent successfully");
+
+    } catch (error) {
+        console.error("Error in sendPasswordResetConfirmationEmail:", error);
+        throw error;
+    }
+}

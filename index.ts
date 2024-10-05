@@ -33,7 +33,8 @@ app.set('views', path.join(__dirname, "views"));
 app.use(session({
     secret: 'your secret key',
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: { secure: false }
 }));
 
 app.use(loginRouter());

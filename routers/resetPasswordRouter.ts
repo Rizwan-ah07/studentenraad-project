@@ -1,7 +1,9 @@
-// resetPasswordRouter.ts
+// routes/resetPasswordRouter.ts
 
 import express, { Router, Request, Response } from "express";
-import { findUserByResetToken, updateUserPassword } from "../database";
+import { findUserByResetToken, updateUserPassword, findUserByEmail } from "../database";
+import { sendPasswordResetConfirmationEmail } from "../utils/emailService";
+import { User } from "../interface";
 
 export function resetPasswordRouter(): Router {
     const router = express.Router();
@@ -80,7 +82,18 @@ export function resetPasswordRouter(): Router {
             // Update the user's password
             await updateUserPassword(user._id!, newPassword);
 
-            res.render("resetPassword", { error: null, message: "Your password has been successfully reset. You can now log in.", token: null });
+            // Automatically log in the user by setting session
+            req.session.user = {
+                id: user._id,
+                username: user.username,
+                role: user.role
+            };
+
+            // Optionally, send a confirmation email
+            await sendPasswordResetConfirmationEmail(user.email);
+
+            // Redirect to home page after successful reset and login
+            res.redirect("/"); // Adjust the route as per your application
         } catch (e: any) {
             res.render("resetPassword", { error: e.message, message: null, token });
         }

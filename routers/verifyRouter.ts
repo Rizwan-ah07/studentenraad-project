@@ -1,6 +1,6 @@
-
 import express, { Router, Request, Response } from "express";
-import { UserCollection } from "../database";
+import { UserCollection, findUserByEmail } from "../database";
+import { User } from "../interface";
 
 export function verifyRouter(): Router {
     const router = express.Router();
@@ -26,7 +26,15 @@ export function verifyRouter(): Router {
                 { $set: { verified: true }, $unset: { verificationToken: "" } }
             );
 
-            res.send("Your email has been verified. You can now log in.");
+            // Automatically log in the user by setting session
+            req.session.user = {
+                id: user._id,
+                username: user.username,
+                role: user.role
+            };
+
+            // Redirect to home page after successful verification and login
+            res.redirect("/"); // Adjust the route as per your application
         } catch (error) {
             console.error("Error during email verification:", error);
             res.status(500).send("Internal server error.");

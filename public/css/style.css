@@ -321,9 +321,9 @@ footer p a {
 }
 
 
-/* register.ejs password validation */
+/* Password Requirements Dropdown */
 .password-requirements {
-  display: none; 
+  display: none; /* Hidden by default */
   border: 1px solid #ccc;
   padding: 10px;
   border-radius: 5px;
@@ -359,21 +359,19 @@ footer p a {
 }
 
 .password-requirements li::before {
-  content: '✖'; 
+  content: '✖'; /* Cross mark for invalid */
   display: inline-block;
   width: 20px;
   margin-right: 5px;
 }
 
 .password-requirements li.valid::before {
-  content: '✔'; 
+  content: '✔'; /* Check mark for valid */
 }
-
 
 .password-section {
   position: relative;
 }
-
 
 .error-message {
   color: red;
