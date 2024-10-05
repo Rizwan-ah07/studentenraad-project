@@ -1,3 +1,5 @@
+// Random Username Generator
+
 const adjectives = [
     "Fluffy", "Brave", "Mighty", "Clever", "Happy", "Quiet", "Bright", "Bold", "Gentle", "Swift",
     "Fierce", "Calm", "Loyal", "Vivid", "Nimble", "Curious", "Proud", "Silent", "Eager", "Wise",
@@ -24,7 +26,7 @@ const nouns = [
     "Sea Lion", "Lobster", "Manatee", "Polar Bear", "Reindeer", "Starling", "Tarantula", "Osprey", "Hawk", "Sea Turtle"
 ];
 
-    
+    // Random Username button logic
         document.getElementById('random-username-btn').addEventListener('click', function() {
 
             const randomAdjective = adjectives[Math.floor(Math.random() * adjectives.length)];
@@ -36,37 +38,105 @@ const nouns = [
         });
 
 
-        document.getElementById('registerForm').addEventListener('submit', function(event) {
+// Password Strength Meter
+document.addEventListener('DOMContentLoaded', () => {
+    const passwordInput = document.getElementById('password');
+    const passwordConfirmInput = document.getElementById('passwordConfirm');
+    const passwordError = document.getElementById('passwordError');
+    const passwordRequirements = document.getElementById('passwordHelp');
 
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('passwordConfirm').value;
-            const passwordError = document.getElementById('passwordError');
+    const requirements = {
+        length: {
+            regex: /.{8,}/,
+            element: document.getElementById('length')
+        },
+        uppercase: {
+            regex: /[A-Z]/,
+            element: document.getElementById('uppercase')
+        },
+        number: {
+            regex: /[0-9]/,
+            element: document.getElementById('number')
+        },
+        symbol: {
+            regex: /[!@#$%^&*(),.?":{}|<>]/,
+            element: document.getElementById('symbol')
+        }
+    };
 
+    // Show password requirements on focus
+    passwordInput.addEventListener('focus', () => {
+        passwordRequirements.style.display = 'block';
+    });
 
-            if (password !== confirmPassword) {
-                passwordError.style.display = 'block';
-                event.preventDefault(); 
+    // Hide password requirements on blur
+    passwordInput.addEventListener('blur', () => {
+        setTimeout(() => {
+            passwordRequirements.style.display = 'none';
+        }, 200);
+    });
+    // Validate password on input
+    passwordInput.addEventListener('input', () => {
+        const password = passwordInput.value;
+        // Check each requirement
+        Object.keys(requirements).forEach(key => {
+            if (requirements[key].regex.test(password)) {
+                requirements[key].element.classList.remove('invalid');
+                requirements[key].element.classList.add('valid');
             } else {
-                passwordError.style.display = 'none'; 
+                requirements[key].element.classList.remove('valid');
+                requirements[key].element.classList.add('invalid');
             }
         });
+        // Check if all requirements are met
+        const allValid = Object.keys(requirements).every(key => requirements[key].regex.test(password));
+        if (allValid) {
+            passwordRequirements.style.display = 'none';
+        } else {
+            passwordRequirements.style.display = 'block';
+        }
 
-        document.getElementById('registerForm').addEventListener('submit', function(event) {
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('passwordConfirm').value;
-            const passwordError = document.getElementById('passwordError');
+        if (passwordConfirmInput.value.length > 0) {
+            validatePasswordMatch();
+        }
+    });
+// Validate password match on input
+    passwordConfirmInput.addEventListener('input', () => {
+        validatePasswordMatch();
+    });
+// Validate password match
+    function validatePasswordMatch() {
+        const password = passwordInput.value;
+        const confirmPassword = passwordConfirmInput.value;
 
-            if (password !== confirmPassword) {
-                passwordError.innerHTML = "Passwords do not match.";
-                passwordError.style.display = 'block';
-                event.preventDefault();
-            } 
-            else if (password.length < 8) {
-                passwordError.innerHTML = "Password must be at least 8 characters long.";
-                passwordError.style.display = 'block';
-                event.preventDefault();
-            } 
-            else {
-                passwordError.style.display = 'none'; 
-            }
-        });
+        if (password && confirmPassword && password !== confirmPassword) {
+            passwordError.style.display = 'block';
+            passwordConfirmInput.classList.add('is-invalid');
+        } else {
+            passwordError.style.display = 'none';
+            passwordConfirmInput.classList.remove('is-invalid');
+        }
+    }
+
+// Register form submit
+    const registerForm = document.getElementById('registerForm');
+    registerForm.addEventListener('submit', (event) => {
+
+        const allValid = Object.keys(requirements).every(key => requirements[key].regex.test(passwordInput.value));
+
+        if (!allValid) {
+            event.preventDefault();
+            alert('Please ensure your password meets all requirements.');
+            passwordRequirements.style.display = 'block';
+        }
+
+        // Check password match
+        if (passwordInput.value !== passwordConfirmInput.value) {
+            event.preventDefault();
+            passwordError.style.display = 'block';
+            passwordConfirmInput.classList.add('is-invalid');
+        }
+    });
+});
+
+

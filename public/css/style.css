@@ -319,3 +319,63 @@ footer p a {
   width: 85px;
   margin-right: 10px;
 }
+
+
+/* register.ejs password validation */
+.password-requirements {
+  display: none; 
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  position: absolute;
+  z-index: 1000;
+  width: 100%;
+  top: 100%;
+  left: 0;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  margin-top: 5px;
+}
+
+.password-requirements ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.password-requirements li {
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  font-size: 0.9em;
+}
+
+.password-requirements li.valid {
+  color: green;
+}
+
+.password-requirements li.invalid {
+  color: red;
+}
+
+.password-requirements li::before {
+  content: '✖'; 
+  display: inline-block;
+  width: 20px;
+  margin-right: 5px;
+}
+
+.password-requirements li.valid::before {
+  content: '✔'; 
+}
+
+
+.password-section {
+  position: relative;
+}
+
+
+.error-message {
+  color: red;
+  display: none;
+}
