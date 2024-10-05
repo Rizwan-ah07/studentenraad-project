@@ -8,6 +8,7 @@ import { registerRouter } from "./routers/registerRouter";
 import { suggestionsRouter } from "./routers/suggestionRouter";
 import { verifyRouter } from "./routers/verifyRouter";
 import { adminRouter } from "./routers/adminRouter";
+import { verificationPendingRouter } from "./routers/verificationPendingRouter"; 
 import { connect } from "./database";
 
 
@@ -38,6 +39,7 @@ app.use(registerRouter());
 app.use(suggestionsRouter());
 app.use(adminRouter());
 app.use(verifyRouter());
+app.use(verificationPendingRouter());
 
 app.get("/", secureMiddleware, (req, res) => {
     res.render("index", {

@@ -184,7 +184,7 @@ async function sendVerificationEmail(email: string, token: string) {
     try {
         console.log("Starting email verification process...");
 
-        const verificationUrl = `http://localhost:${process.env.PORT || 3000}/verify?token=${token}`;
+        const verificationUrl = `http://apstudentenraad.onrender.com/verify?token=${token}`;
         console.log("Verification URL: ", verificationUrl);
 
         const oauth2Client = new google.auth.OAuth2(
