@@ -2,7 +2,6 @@
 import express, { Router, Request, Response } from "express";
 import { register } from "../database";
 import { checkLogin } from "../middleware/secureMiddleware";
-import { findUserByUsername } from "../database";
 
 export function registerRouter(): Router {
     const router = express.Router();
@@ -12,13 +11,13 @@ export function registerRouter(): Router {
     });
 
     router.post("/register", async (req: Request, res: Response) => {
-        const { email, password, username } = req.body;
+        const { email, password, username, course } = req.body;
 
         try {
             if (!email.endsWith('@ap.be')) {
                 throw new Error("Gebruik je school email die begint met 's' en eidigt met @ap.be.");
             }
-            await register(email, password, username);
+            await register(email, password, username, course);
             res.redirect("/verification-pending");  
         } catch (e: any) {
             res.render("register", { error: e.message });

@@ -16,11 +16,11 @@ export const UserCollection: Collection<User> = client.db("studentenraad-project
 export const PostCollection: Collection<any> = client.db("studentenraad-project").collection<Post>("posts");
 
 export async function findUserByEmail(email: string) {
-    return await UserCollection.findOne({ email: email });
+    return await UserCollection.findOne({ email_lower: email.toLowerCase() });
 }
 
 export async function findUserByUsername(username: string) {
-    return await UserCollection.findOne({ username: username });
+    return await UserCollection.findOne({ username_lower: username.toLowerCase() });
 }
 
 export async function findRoleByUsername(username: string) {
@@ -94,9 +94,9 @@ async function createInitialUsers() {
     const userHash = await bcrypt.hash(userPassword, saltRounds);
 
     await UserCollection.insertMany([
-        { email: adminEmail, password: adminHash, role: "ADMIN", username: "Rizwan", verified: true },
-        { email: secondAdminEmail, password: secondAdminHash, role: "ADMIN", username: "Precious", verified: true },
-        { email: userEmail, password: userHash, role: "USER", username: "user", verified: true }
+        { email: adminEmail, email_lower: adminEmail.toLowerCase(), password: adminHash, role: "ADMIN", username: "Rizwan", username_lower: "rizwan", verified: true, course: "Admin Course", verificationToken: crypto.randomBytes(32).toString("hex") },
+        { email: secondAdminEmail, email_lower: secondAdminEmail.toLowerCase(), password: secondAdminHash, role: "ADMIN", username: "Precious", username_lower: "precious", verified: true, course: "Admin Course", verificationToken: crypto.randomBytes(32).toString("hex") },
+        { email: userEmail, email_lower: userEmail.toLowerCase(), password: userHash, role: "USER", username: "user", username_lower: "user", verified: true, course: "User Course", verificationToken: crypto.randomBytes(32).toString("hex") }
     ]);
 }
 
@@ -119,9 +119,9 @@ export async function loginWithEmailOrUsername(loginIdentifier: string, password
     let user: User | null;
 
     if (isEmail) {
-        user = await findUserByEmail(loginIdentifier.toLowerCase());
+        user = await findUserByEmail(loginIdentifier);
     } else {
-        user = await findUserByUsername(loginIdentifier.toLowerCase());
+        user = await findUserByUsername(loginIdentifier);
     }
 
     if (!user) {
@@ -139,14 +139,37 @@ export async function loginWithEmailOrUsername(loginIdentifier: string, password
     }
 }
 
-export async function register(email: string, password: string, username: string) {
-    console.log("Register function called with:", email, username);
-    if (email === "" || password === "" || username === "") {
-        throw new Error("Email, password, and username are required");
+export async function register(email: string, password: string, username: string, course: string) {
+    console.log("Register function called with:", email, username, course);
+    if (email === "" || password === "" || username === "" || course === "") {
+        throw new Error("Email, password, username, and course are required");
     }
 
-    if (password.length < 8) {
-        throw new Error("Password must be at least 8 characters long");
+    // Server-side password validation
+    const passwordRequirements = {
+        length: /.{8,}/,
+        uppercase: /[A-Z]/,
+        number: /[0-9]/,
+        symbol: /[!@#$%^&*(),.?":{}|<>]/
+    };
+
+    const unmetRequirements = [];
+
+    if (!passwordRequirements.length.test(password)) {
+        unmetRequirements.push("Password must be at least 8 characters long.");
+    }
+    if (!passwordRequirements.uppercase.test(password)) {
+        unmetRequirements.push("Password must contain at least one uppercase letter.");
+    }
+    if (!passwordRequirements.number.test(password)) {
+        unmetRequirements.push("Password must contain at least one number.");
+    }
+    if (!passwordRequirements.symbol.test(password)) {
+        unmetRequirements.push("Password must contain at least one special symbol.");
+    }
+
+    if (unmetRequirements.length > 0) {
+        throw new Error(unmetRequirements.join(" "));
     }
 
     const existingUserByEmail = await findUserByEmail(email);
@@ -163,12 +186,15 @@ export async function register(email: string, password: string, username: string
     const verificationToken = crypto.randomBytes(32).toString("hex");
 
     const newUser: User = {
-        email: email.toLowerCase(),
+        email: email, // Store original email
+        email_lower: email.toLowerCase(), // Store lowercase email
         password: hashedPassword,
-        username: username.toLowerCase(),
+        username: username, // Store original username
+        username_lower: username.toLowerCase(), // Store lowercase username
         role: "USER",
         verified: false,
-        verificationToken: verificationToken
+        verificationToken: verificationToken,
+        course: course 
     };
 
     const result = await UserCollection.insertOne(newUser);
