@@ -11,6 +11,8 @@ export interface User {
     verified: boolean;
     verificationToken: string;
     course: string;
+    resetPasswordToken?: string;
+    resetPasswordExpires?: Date;
 }
 
     export interface Post {

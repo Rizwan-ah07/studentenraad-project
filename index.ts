@@ -10,6 +10,8 @@ import { verifyRouter } from "./routers/verifyRouter";
 import { adminRouter } from "./routers/adminRouter";
 import { verificationPendingRouter } from "./routers/verificationPendingRouter"; 
 import { connect } from "./database";
+import { forgotPasswordRouter } from "./routers/forgotPasswordRouter";
+import { resetPasswordRouter } from "./routers/resetPasswordRouter";
 
 
 dotenv.config();
@@ -40,6 +42,8 @@ app.use(suggestionsRouter());
 app.use(adminRouter());
 app.use(verifyRouter());
 app.use(verificationPendingRouter());
+app.use(forgotPasswordRouter()); 
+app.use(resetPasswordRouter());
 
 app.get("/", secureMiddleware, (req, res) => {
     res.render("index", {

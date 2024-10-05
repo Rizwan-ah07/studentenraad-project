@@ -6,6 +6,8 @@ import nodemailer from "nodemailer";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
 import { google } from "googleapis";
 import { User, Post } from "./interface";
+import { v4 as uuidv4 } from 'uuid';
+import { sendResetPasswordEmail } from "./utils/emailService";
 dotenv.config();
 
 export const MONGODB_URI = process.env.MONGODB_URI ?? "mongodb://localhost:27017";
@@ -94,11 +96,42 @@ async function createInitialUsers() {
     const userHash = await bcrypt.hash(userPassword, saltRounds);
 
     await UserCollection.insertMany([
-        { email: adminEmail, email_lower: adminEmail.toLowerCase(), password: adminHash, role: "ADMIN", username: "Rizwan", username_lower: "rizwan", verified: true, course: "Admin Course", verificationToken: crypto.randomBytes(32).toString("hex") },
-        { email: secondAdminEmail, email_lower: secondAdminEmail.toLowerCase(), password: secondAdminHash, role: "ADMIN", username: "Precious", username_lower: "precious", verified: true, course: "Admin Course", verificationToken: crypto.randomBytes(32).toString("hex") },
-        { email: userEmail, email_lower: userEmail.toLowerCase(), password: userHash, role: "USER", username: "user", username_lower: "user", verified: true, course: "User Course", verificationToken: crypto.randomBytes(32).toString("hex") }
+        { 
+            email: adminEmail, 
+            email_lower: adminEmail.toLowerCase(),
+            password: adminHash, 
+            role: "ADMIN", 
+            username: "Rizwan", 
+            username_lower: "rizwan",
+            verified: true, 
+            course: "Admin Course",
+            verificationToken: crypto.randomBytes(32).toString("hex")
+        },
+        { 
+            email: secondAdminEmail, 
+            email_lower: secondAdminEmail.toLowerCase(),
+            password: secondAdminHash, 
+            role: "ADMIN", 
+            username: "Precious", 
+            username_lower: "precious",
+            verified: true, 
+            course: "Admin Course",
+            verificationToken: crypto.randomBytes(32).toString("hex")
+        },
+        { 
+            email: userEmail, 
+            email_lower: userEmail.toLowerCase(),
+            password: userHash, 
+            role: "USER", 
+            username: "user", 
+            username_lower: "user",
+            verified: true, 
+            course: "User Course",
+            verificationToken: crypto.randomBytes(32).toString("hex")
+        }
     ]);
 }
+
 
 async function createInitialPosts() {
     if (await PostCollection.countDocuments() > 0) { return; }
@@ -112,9 +145,10 @@ async function createInitialPosts() {
 
 export async function loginWithEmailOrUsername(loginIdentifier: string, password: string) {
     if (loginIdentifier === "" || password === "") {
-        throw new Error("Email/Username and password required");
+        throw new Error("Email and password are required");
     }
 
+    // Since we're restricting to email only for password reset, but login still accepts email or username
     const isEmail = loginIdentifier.includes("@");
     let user: User | null;
 
@@ -186,11 +220,11 @@ export async function register(email: string, password: string, username: string
     const verificationToken = crypto.randomBytes(32).toString("hex");
 
     const newUser: User = {
-        email: email, // Store original email
-        email_lower: email.toLowerCase(), // Store lowercase email
+        email: email, 
+        email_lower: email.toLowerCase(), 
         password: hashedPassword,
-        username: username, // Store original username
-        username_lower: username.toLowerCase(), // Store lowercase username
+        username: username, 
+        username_lower: username.toLowerCase(), 
         role: "USER",
         verified: false,
         verificationToken: verificationToken,
@@ -203,6 +237,53 @@ export async function register(email: string, password: string, username: string
     await sendVerificationEmail(email, verificationToken);
 
     return result.insertedId;
+}
+
+export async function generatePasswordResetToken(email: string): Promise<string> {
+    const user = await findUserByEmail(email.toLowerCase());
+
+    if (!user) {
+        throw new Error("User not found.");
+    }
+
+    if (!user.verified) {
+        throw new Error("Your email has not been verified.");
+    }
+
+    // Generate a unique token
+    const resetToken = uuidv4();
+
+    // Set token and expiration (e.g., 1 hour)
+    const expires = new Date();
+    expires.setHours(expires.getHours() + 1);
+
+    // Update user with reset token and expiration
+    await UserCollection.updateOne(
+        { _id: user._id },
+        { $set: { resetPasswordToken: resetToken, resetPasswordExpires: expires } }
+    );
+
+    return resetToken;
+}
+
+// Function to find user by reset token
+export async function findUserByResetToken(token: string): Promise<User | null> {
+    return await UserCollection.findOne({
+        resetPasswordToken: token,
+        resetPasswordExpires: { $gt: new Date() } // Token not expired
+    });
+}
+
+// Function to update the user's password
+export async function updateUserPassword(userId: ObjectId, newPassword: string): Promise<void> {
+    const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+    await UserCollection.updateOne(
+        { _id: userId },
+        { 
+            $set: { password: hashedPassword },
+            $unset: { resetPasswordToken: "", resetPasswordExpires: "" } // Remove reset fields
+        }
+    );
 }
 
 
@@ -294,6 +375,7 @@ export async function connect() {
         console.log('Error connecting to the database: ' + error);
     }
 }
+
 function sendEmail(email: string, arg1: string, arg2: string, arg3: string) {
     throw new Error("Function not implemented.");
 }

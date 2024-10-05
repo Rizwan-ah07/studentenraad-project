@@ -1,0 +1,40 @@
+<!-- views/checkEmail.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Check Your Email - Student Council Portal</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <main class="container check-email-container">
+        <section class="row justify-content-center">
+            <article class="col-md-6">
+                <header class="text-center">
+                    <img src="/images/logo.png" alt="Logo" class="brand-logo">
+                </header>
+                <article class="message-card">
+                    <h3 class="text-center">Check Your Email</h3>
+                    <div class="alert alert-info mt-3">
+                        If an account with the email <strong><%= email %></strong> exists and is verified, a password reset link has been sent.
+                    </div>
+                    <p class="text-center mt-3">
+                        <a href="/login" class="btn btn-primary">Return to Login</a>
+                    </p>
+                </article>
+            </article>
+        </section>
+    </main>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/[email protected]/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+</body>
+</html>
