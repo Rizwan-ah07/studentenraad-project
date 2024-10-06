@@ -27,8 +27,8 @@ export function adminRouter(): Router {
         const { searchPost } = req.query;
         if (searchPost) {
             const filteredPosts = posts.filter(post => post.title.toLowerCase().includes(searchPost.toString().toLowerCase() as string) || 
-            post.content.toLowerCase().includes(searchPost.toString().toLowerCase() as string) || 
-            post.author.toLowerCase().includes(searchPost.toString().toLowerCase() as string));
+            post.message.toLowerCase().includes(searchPost.toString().toLowerCase() as string) || 
+            post.author.username_lower.includes(searchPost.toString().toLowerCase() as string));
             return res.render("admin", { 
                 users: users,
                 posts: filteredPosts,

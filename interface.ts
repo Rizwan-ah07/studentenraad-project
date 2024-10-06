@@ -18,8 +18,11 @@ export interface User {
     export interface Post {
     _id?: ObjectId;
     title: string;
-    author: string;
-    content: string;
+    author: User;
+    message: string;
+    created: Date;
+    updated: Date;
+    isAnonymous: boolean;
 }
 
 

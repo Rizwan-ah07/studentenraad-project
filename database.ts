@@ -173,6 +173,25 @@ export async function loginWithEmailOrUsername(loginIdentifier: string, password
     }
 }
 
+export async function savePost(title: string, anonymous: boolean, author: string, message: string) {
+    const user = await UserCollection.findOne({ username: author });
+    if (!user) {
+        throw new Error("User not found.");
+    }
+
+    const newPost: Post = {
+        title: title,
+        author: user,
+        message: message,
+        created: new Date(),
+        updated: new Date(),
+        isAnonymous: anonymous
+    };
+
+    await PostCollection.insertOne(newPost);
+}
+
+
 export async function register(email: string, password: string, username: string, course: string) {
     console.log("Register function called with:", email, username, course);
     if (email === "" || password === "" || username === "" || course === "") {

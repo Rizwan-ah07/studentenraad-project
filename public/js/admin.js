@@ -46,6 +46,22 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+document.querySelectorAll('.view-post-btn').forEach(button => {
+    const postTitle = button.getAttribute('data-post-title');
+    const postMessage = button.getAttribute('data-post-message');
+    const postUpdated = button.getAttribute('data-post-updated');
+
+    // Format the date in European format (DD-MM-YYYY)
+    const date = new Date(postUpdated);
+    const formattedDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+
+    button.addEventListener('click', () => {
+        document.getElementById('view-post-title').textContent = `Post: ${postTitle}`;
+        document.getElementById('view-post-message').innerHTML = `${postMessage}<br><br>`;
+        document.getElementById('view-post-updated').textContent = `Last updated: ${formattedDate}`;
+    });
+});
+
 
 const editUserForm = document.getElementById('editUserForm');
 

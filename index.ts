@@ -12,6 +12,7 @@ import { verificationPendingRouter } from "./routers/verificationPendingRouter";
 import { connect } from "./database";
 import { forgotPasswordRouter } from "./routers/forgotPasswordRouter";
 import { resetPasswordRouter } from "./routers/resetPasswordRouter";
+import { postRouter } from "./routers/postRouter";
 
 
 dotenv.config();
@@ -45,15 +46,8 @@ app.use(verifyRouter());
 app.use(verificationPendingRouter());
 app.use(forgotPasswordRouter()); 
 app.use(resetPasswordRouter());
+app.use(postRouter());
 
-app.get("/", secureMiddleware, (req, res) => {
-    res.render("index", {
-        title: "Hello World",
-        message: "Hello World",
-        username: req.session?.user?.username ?? "Guest",
-        role : req.session?.user?.role ?? "Guest"
-    })
-});
 
 
 app.use((req, res) => {

@@ -146,6 +146,12 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card{
+  cursor: pointer;
 }
 
 .add-post-section {
@@ -376,4 +382,10 @@ footer p a {
 .error-message {
   color: red;
   display: none;
+}
+
+.seperate {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
