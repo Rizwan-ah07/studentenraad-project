@@ -5,7 +5,7 @@
   "type": "module",
   "main": "index.ts",
   "scripts": {
-    "start": "node --loader ts-node/esm --max-old-space-size=1024 index.ts",
+    "start": "node --loader ts-node/esm --max-old-space-size=512 index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
@@ -60,6 +60,6 @@
     "validator": "^13.11.0"
   },
   "keywords": [],
-  "author": "Riozwan &  Precious",
+  "author": "Rizwan &  Precious",
   "license": "ISC"
 }
