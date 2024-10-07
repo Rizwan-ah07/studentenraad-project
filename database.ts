@@ -310,7 +310,7 @@ async function sendVerificationEmail(email: string, token: string) {
     try {
         console.log("Starting email verification process...");
 
-        const verificationUrl = `http://apstudentenraad.onrender.com/verify?token=${token}`;
+        const verificationUrl = `http://studentenraad.com/verify?token=${token}`;
         console.log("Verification URL: ", verificationUrl);
 
         const oauth2Client = new google.auth.OAuth2(
@@ -334,18 +334,28 @@ async function sendVerificationEmail(email: string, token: string) {
 
         console.log("Access token retrieved: ", accessToken);
 
+        // const smtpOptions: SMTPTransport.Options = {
+        //     host: "smtp.gmail.com",
+        //     port: 587, 
+        //     secure: false, 
+        //     auth: {
+        //         type: "OAuth2",
+        //         user: process.env.SMTP_USER!,
+        //         clientId: process.env.CLIENT_ID!,
+        //         clientSecret: process.env.CLIENT_SECRET!,
+        //         refreshToken: process.env.REFRESH_TOKEN!,
+        //         accessToken: accessToken,
+        //     },
+        // };
+
         const smtpOptions: SMTPTransport.Options = {
-            host: "smtp.gmail.com",
-            port: 587, 
-            secure: false, 
+            host: "smtp.ionos.fr",
+            port: 465,
+            secure: false,
             auth: {
-                type: "OAuth2",
                 user: process.env.SMTP_USER!,
-                clientId: process.env.CLIENT_ID!,
-                clientSecret: process.env.CLIENT_SECRET!,
-                refreshToken: process.env.REFRESH_TOKEN!,
-                accessToken: accessToken,
-            },
+                pass: process.env.SMTP_PASSWORD!
+            }
         };
 
         console.log("SMTP options set");

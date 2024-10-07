@@ -38,15 +38,15 @@ app.use(session({
 }));
 
 // Apply your routers
-app.use(loginRouter);
-app.use(registerRouter);
-app.use(suggestionsRouter);
-app.use(adminRouter);
-app.use(verifyRouter);
-app.use(verificationPendingRouter);
-app.use(forgotPasswordRouter);
-app.use(resetPasswordRouter);
-app.use(postRouter);
+app.use(loginRouter());
+app.use(registerRouter());
+app.use(suggestionsRouter());
+app.use(adminRouter());
+app.use(verifyRouter());
+app.use(verificationPendingRouter());
+app.use(forgotPasswordRouter());
+app.use(resetPasswordRouter());
+app.use(postRouter());
 
 // 404 Error handler
 app.use((req, res) => {
