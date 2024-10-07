@@ -206,7 +206,7 @@ export async function register(email: string, password: string, username: string
         symbol: /[!@#$%^&*(),.?":{}|<>]/
     };
 
-    const unmetRequirements = [];
+    const unmetRequirements: string[] = [];
 
     if (!passwordRequirements.length.test(password)) {
         unmetRequirements.push("Password must be at least 8 characters long.");
