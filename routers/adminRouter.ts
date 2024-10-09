@@ -1,12 +1,11 @@
 import express, { Router, Request, Response } from "express";
 import { getAllUsers, getAllPosts, updateUser, deleteUser, deletePost } from "../database";
 import { User, Post } from "../interface";
-import { isAdmin } from "../middleware/isAdmin";
-
+import { ensureAdmin } from "../middleware/secureMiddleware";
 export function adminRouter(): Router {
     const router = express.Router();
 
-    router.get("/admin", isAdmin, async (req: Request, res: Response) => {
+    router.get("/admin", ensureAdmin, async (req: Request, res: Response) => {
         const users : User[] = await getAllUsers();
         const posts : Post[] = await getAllPosts();
 
@@ -49,21 +48,21 @@ export function adminRouter(): Router {
         });
     });
 
-    router.post("/admin/edit-user", isAdmin, async (req: Request, res: Response) => {
+    router.post("/admin/edit-user", ensureAdmin, async (req: Request, res: Response) => {
         const {username, email, role} = req.body;
         // Update user
         await updateUser(username, email, role);
         res.status(200).json({message: "User updated"});
     });
 
-    router.post("/admin/delete-user", isAdmin, async (req: Request, res: Response) => {
+    router.post("/admin/delete-user", ensureAdmin, async (req: Request, res: Response) => {
         const {username} = req.body;
         // Delete user
         await deleteUser(username);
         res.status(200).json({message: "User deleted"});
     });
 
-    router.post("/admin/delete-post", isAdmin, async (req: Request, res: Response) => {
+    router.post("/admin/delete-post", ensureAdmin, async (req: Request, res: Response) => {
         const {postId} = req.body;
         // Delete post
         await deletePost(postId);

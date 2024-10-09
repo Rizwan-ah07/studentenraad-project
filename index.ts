@@ -1,8 +1,7 @@
-import express, { Express, Request, Response } from "express";
+import express, { Express } from "express";
 import dotenv from "dotenv";
 import path from "path";
 import session from "express-session";
-import { secureMiddleware, checkLogin } from "./middleware/secureMiddleware";
 import { loginRouter } from "./routers/loginRouter";
 import { registerRouter } from "./routers/registerRouter";
 import { suggestionsRouter } from "./routers/suggestionRouter";
@@ -18,11 +17,12 @@ dotenv.config();
 const app: Express = express();
 const port = process.env.PORT || 3000;
 
-declare module "express-session" {
-    interface SessionData {
-        user: { [key: string]: any };
-    }
-}
+app.use(session({
+    secret: process.env.SESSION_SECRET || 'your secret key',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: process.env.NODE_ENV === 'production' } // Secure cookie in production
+}));
 
 app.set("view engine", "ejs");
 app.use(express.json({ limit: "1mb" }));
@@ -30,12 +30,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.set("views", path.join(__dirname, "views"));
 
-app.use(session({
-    secret: process.env.SESSION_SECRET || 'your secret key',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: process.env.NODE_ENV === 'production' } // Secure cookie in production
-}));
+
 
 // Apply your routers
 app.use(loginRouter());
@@ -49,7 +44,7 @@ app.use(resetPasswordRouter());
 app.use(postRouter());
 
 // 404 Error handler
-app.use((req, res) => {
+app.use((_, res) => {
     res.status(404).render("error", { message: "Page not found" });
 });
 

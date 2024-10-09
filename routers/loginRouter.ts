@@ -3,6 +3,12 @@ import { loginWithEmailOrUsername } from "../database";
 import { checkLogin } from "../middleware/secureMiddleware";
 import { User } from "../interface";
 
+declare module "express-session" {
+    interface SessionData {
+        user: { [key: string]: any };
+    }
+}
+
 export function loginRouter(): Router {
     const router = express.Router();
 
