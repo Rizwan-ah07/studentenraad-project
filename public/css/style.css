@@ -1,6 +1,6 @@
-
 /* Home */
-html, body {
+html,
+body {
   height: 100%;
 }
 
@@ -77,6 +77,7 @@ header section:nth-child(2) form button {
   color: white;
   cursor: pointer;
 }
+
 header section:nth-child(2) form button:hover {
   background-color: white;
   color: brown;
@@ -88,7 +89,7 @@ header section:nth-child(2) p {
   margin-right: 10px;
 }
 
-header section:nth-child(2) > button {
+header section:nth-child(2)>button {
   padding: 5px;
   border-radius: 10px;
   border: 1px solid brown;
@@ -101,7 +102,8 @@ header section:nth-child(2) > button {
   align-items: center;
   justify-content: center;
 }
-header section:nth-child(2) > button a {
+
+header section:nth-child(2)>button a {
   text-decoration: none;
   color: white;
 }
@@ -109,22 +111,27 @@ header section:nth-child(2) > button a {
 body {
   background-color: #f8f9fa;
 }
+
 .register-container {
   margin-top: 80px;
 }
+
 .form-card {
   padding: 20px;
   background-color: white;
   border-radius: 5px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
+
 .brand-logo {
   width: 80px;
   margin-bottom: 20px;
 }
+
 .form-control {
   margin-bottom: 15px;
 }
+
 .random-button {
   margin-left: 10px;
   cursor: pointer;
@@ -136,7 +143,7 @@ body {
 
 .error-message {
   color: red;
-  display: none; 
+  display: none;
 }
 
 
@@ -144,14 +151,27 @@ body {
 main {
   flex: 1;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   flex-direction: column;
   gap: 20px;
 }
 
-.card{
+.card {
   cursor: pointer;
+  width: 25rem;
+}
+
+.card-title {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .add-post-section {
@@ -161,7 +181,8 @@ main {
 }
 
 .add-post-button {
-  background-color: #D15454; /* Match the red color in the image */
+  background-color: #D15454;
+  /* Match the red color in the image */
   color: white;
   font-size: 18px;
   padding: 15px 30px;
@@ -169,14 +190,22 @@ main {
   border-radius: 50px;
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease;
+  transition: #D15454 0.3s ease;
+}
+
+.posts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
 }
 
 .add-post-button:hover {
-  background-color: #B94545; /* Slightly darker red on hover */
+  background-color: #B94545;
+  /* Slightly darker red on hover */
 }
 
-.add-post-button i{
+.add-post-button i {
   font-size: 1.5em;
 }
 
@@ -187,13 +216,15 @@ main {
   margin-top: 50px;
   flex-direction: column;
 }
+
 /* Admin Page */
 .adminPage {
   padding: 20px;
   margin-top: 30px;
 }
 
-.adminPage h1, .adminPage h3 {
+.adminPage h1,
+.adminPage h3 {
   text-align: center;
   color: #333;
   margin-bottom: 30px;
@@ -218,7 +249,8 @@ main {
 }
 
 .adminPage section button {
-  background-color: #D15454; /* Use a nice red to match branding */
+  background-color: #D15454;
+  /* Use a nice red to match branding */
   color: white;
   border: none;
   border-radius: 5px;
@@ -229,7 +261,8 @@ main {
 }
 
 .adminPage section button:hover {
-  background-color: #B94545; /* Darker red on hover */
+  background-color: #B94545;
+  /* Darker red on hover */
 }
 
 /* Table Styling */
@@ -243,7 +276,8 @@ main {
   overflow: auto;
 }
 
-.adminPage table th, .adminPage table td {
+.adminPage table th,
+.adminPage table td {
   text-align: left;
   padding: 12px 15px;
   border-bottom: 1px solid #ddd;
@@ -281,7 +315,8 @@ main {
 .table-wrapper {
   max-height: 250px;
   overflow-y: auto;
-  overflow-x: hidden; /* If you don't want horizontal scrolling */
+  overflow-x: hidden;
+  /* If you don't want horizontal scrolling */
 }
 
 .table-wrapper table {
@@ -329,7 +364,8 @@ footer p a {
 
 /* Password Requirements Dropdown */
 .password-requirements {
-  display: none; /* Hidden by default */
+  display: none;
+  /* Hidden by default */
   border: 1px solid #ccc;
   padding: 10px;
   border-radius: 5px;
@@ -339,7 +375,7 @@ footer p a {
   width: 100%;
   top: 100%;
   left: 0;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin-top: 5px;
 }
 
@@ -365,14 +401,16 @@ footer p a {
 }
 
 .password-requirements li::before {
-  content: '✖'; /* Cross mark for invalid */
+  content: '✖';
+  /* Cross mark for invalid */
   display: inline-block;
   width: 20px;
   margin-right: 5px;
 }
 
 .password-requirements li.valid::before {
-  content: '✔'; /* Check mark for valid */
+  content: '✔';
+  /* Check mark for valid */
 }
 
 .password-section {

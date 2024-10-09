@@ -5,10 +5,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Studentenraad | Home Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
   <link rel="stylesheet" href="/css/reset.css">
   <link rel="stylesheet" href="/css/style.css">
   <script src="https://kit.fontawesome.com/cd8c9527e1.js" crossorigin="anonymous"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <script src="/js/index.js" defer></script>
 </head>
@@ -53,7 +54,75 @@
           <p class="card-text"><%= post.message %></p>
         </div>
         <div class="card-footer">
-          <p class="card-text">Geschreven op: <%= post.created.toDateString().slice(4, 15) %></p>
+          <p class="card-text"><%= post.created.toDateString().slice(4, 15) %></p>
+          <div>
+            <button>Like</button>
+            <button>Dislike</button>
+          </div>
+        </div>
+      </div>
+      <% }) %>
+      <% posts.forEach(post => { %>
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title"><%= post.title %></h5>
+          <h6 class="card-subtitle mb-2 text-muted"><%= post.author.username %></h6>
+          <p class="card-text"><%= post.message %></p>
+        </div>
+        <div class="card-footer">
+          <p class="card-text"><%= post.created.toDateString().slice(4, 15) %></p>
+          <div>
+            <button>Like</button>
+            <button>Dislike</button>
+          </div>
+        </div>
+      </div>
+      <% }) %>
+      <% posts.forEach(post => { %>
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title"><%= post.title %></h5>
+          <h6 class="card-subtitle mb-2 text-muted"><%= post.author.username %></h6>
+          <p class="card-text"><%= post.message %></p>
+        </div>
+        <div class="card-footer">
+          <p class="card-text"><%= post.created.toDateString().slice(4, 15) %></p>
+          <div>
+            <button>Like</button>
+            <button>Dislike</button>
+          </div>
+        </div>
+      </div>
+      <% }) %>
+      <% posts.forEach(post => { %>
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title"><%= post.title %></h5>
+          <h6 class="card-subtitle mb-2 text-muted"><%= post.author.username %></h6>
+          <p class="card-text"><%= post.message %></p>
+        </div>
+        <div class="card-footer">
+          <p class="card-text"><%= post.created.toDateString().slice(4, 15) %></p>
+          <div>
+            <button>Like</button>
+            <button>Dislike</button>
+          </div>
+        </div>
+      </div>
+      <% }) %>
+      <% posts.forEach(post => { %>
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title"><%= post.title %></h5>
+          <h6 class="card-subtitle mb-2 text-muted"><%= post.author.username %></h6>
+          <p class="card-text"><%= post.message %> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla possimus aperiam officiis nobis corrupti inventore ipsum molestiae, laudantium ad dicta, quidem consequatur temporibus ut tenetur nemo. Consequuntur molestiae vitae, excepturi saepe ea modi voluptate, aliquid voluptates labore facere unde dolore non nulla. Magni repudiandae voluptates cum necessitatibus architecto in facere ullam dicta asperiores omnis repellat, dolorum earum, explicabo alias eos. </p>
+        </div>
+        <div class="card-footer">
+          <p class="card-text"><%= post.created.toDateString().slice(4, 15) %></p>
+          <div>
+            <button>Like</button>
+            <button>Dislike</button>
+          </div>
         </div>
       </div>
       <% }) %>
