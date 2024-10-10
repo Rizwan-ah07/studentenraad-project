@@ -7,154 +7,16 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/reset.css">
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/register.css">
     <script src="https://kit.fontawesome.com/380b1a3386.js" crossorigin="anonymous"></script>
 
-    <style>
-        /* Custom styling for responsive behavior */
-        body {
-            font-family: 'Lato', Arial, sans-serif;
-            font-size: 16px;
-            line-height: 1.8;
-            color: #ffffff;
-            background-image: url(/assets/images/bg.jpg);
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center center;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            margin: 0;
-            position: relative;
-        }
-
-        body:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.4); /* This will darken the image */
-            z-index: 0;
-        }
-
-        .ftco-section {
-            padding: 4em 0;
-            width: 100%;
-            max-width: 600px;
-            position: relative;
-            z-index: 1;
-            margin: 0 auto;
-        }
-
-        .login-wrap {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 40px;
-            border-radius: 10px;
-            position: relative;
-            color: #ffffff;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        @media (min-width: 992px) {
-            .ftco-section {
-                max-width: 700px;
-            }
-
-            .login-wrap {
-                padding: 60px;
-            }
-        }
-
-        @media (min-width: 1200px) {
-            .ftco-section {
-                max-width: 800px;
-            }
-        }
-
-        .form-group {
-            position: relative;
-            margin-bottom: 1.5em;
-        }
-
-        .form-control {
-            background: rgba(255, 255, 255, 0.4);
-            border: none;
-            height: 50px;
-            color: #ffffff !important;
-            border-radius: 40px;
-            padding-left: 20px;
-            padding-right: 50px;
-            transition: 0.3s;
-            width: 100%;
-            margin: 0 auto;
-        }
-
-        .form-control:hover, 
-        .form-control:focus {
-            background: transparent;
-            outline: none;
-            box-shadow: none;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-        }
-
-        .field-icon {
-            position: absolute;
-            top: 50%;
-            right: 20px;
-            transform: translateY(-50%);
-            color: #ffffff;
-            cursor: pointer;
-        }
-
-        .btn {
-            cursor: pointer;
-            border-radius: 40px;
-            font-size: 15px;
-            text-transform: uppercase;
-            width: 100%;
-            padding: 15px;
-            transition: 0.3s;
-            border: none;
-        }
-
-        .btn-primary {
-            background: #fbceb5;
-            border: 1px solid #fbceb5;
-            color: #000000;
-        }
-
-        .btn-primary:hover {
-            background: transparent;
-            color: #fbceb5;
-            border: 1px solid #fbceb5;
-        }
-
-        .already-account {
-        color: #ffffff;
-        font-size: 1rem;
-        }
-
-        .already-account a {
-            color: #fbceb5;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .already-account a:hover {
-            color: #ffffff;
-            text-decoration: underline;
-        }
-    </style>
+    
 </head>
 <body>
     <section class="ftco-section">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-md-12 text-center mb-5">
+                <div class="col-md-12 text-center mb-1">
                     <h2 class="heading-section">Register - Student Council Portal</h2>
                 </div>
             </div>
@@ -208,7 +70,7 @@
                             <div class="form-group">
                                 <button type="submit" class="form-control btn btn-primary submit px-3">Register</button>
                             </div>
-                            <div class="form-group d-md-flex">
+                            <div class="form-group">
                                 <div class="form-group text-center mt-4">
                                     <p class="already-account">
                                         Already have an account? <a href="/login">Login here</a>

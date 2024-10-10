@@ -12,8 +12,8 @@ body {
     font-family: 'Lato', Arial, sans-serif;
     font-size: 16px;
     line-height: 1.8;
-    color: var(--text-color);
-    position: relative;
+    color: #ffffff;
+    background-image: url(/assets/images/bg.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
@@ -23,6 +23,7 @@ body {
     align-items: center;
     overflow: hidden;
     margin: 0;
+    position: relative;
 }
 
 body:before {
@@ -32,16 +33,33 @@ body:before {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.4); 
+    background: rgba(0, 0, 0, 0.4);
     z-index: 0;
 }
 
 .ftco-section {
     padding: 4em 0;
     width: 100%;
-    max-width: 400px;
+    max-width: 600px;
     position: relative;
     z-index: 1;
+    margin: 0 auto;
+}
+
+@media (min-width: 992px) {
+    .ftco-section {
+        max-width: 700px;
+    }
+
+    .login-wrap {
+        padding: 60px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .ftco-section {
+        max-width: 800px;
+    }
 }
 
 .heading-section {
@@ -89,7 +107,7 @@ body:before {
     color: var(--placeholder-color);
 }
 
-.form-control:hover, 
+.form-control:hover,
 .form-control:focus {
     background: transparent;
     outline: none;
@@ -147,29 +165,29 @@ body:before {
     color: var(--primary-color);
 }
 
-/* Full Height for section */
 .js-fullheight {
     height: 100vh;
 }
 
-/* Utility */
 .d-md-flex {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
+
 .mb-4 {
     margin-bottom: 1.5rem;
 }
+
 .px-3 {
     padding-left: 1rem;
     padding-right: 1rem;
 }
+
 .text-center {
     text-align: center;
 }
 
-/* Social buttons */
 .social a {
     display: inline-block;
     width: 48%;
@@ -188,10 +206,8 @@ body:before {
     color: var(--secondary-color);
 }
 
-/* Register page adjustments */
 .password-section {
     display: flex;
-    gap: 20px;
 }
 
 .password-requirements {
@@ -239,4 +255,42 @@ body:before {
 
 .password-requirements li.valid::before {
     content: '✔';
+}
+
+.already-account {
+    color: #ffffff;
+    font-size: 1rem;
+}
+
+.already-account a {
+    color: #fbceb5;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.already-account a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+.fa-dice:before {
+    margin-left: -40px;
+    font-size: xx-large;
+}
+
+.form-group .form-control {
+    text-align: center;
+    padding: 0;
+}
+
+.form-group .btn-primary{
+    width: calc(100% - 40px);
+    display: block;
+}
+#passwordError {
+    display: none;
+    text-align: center;
+}
+.already-account {
+    text-align: center;
 }
