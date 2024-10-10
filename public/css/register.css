@@ -1,0 +1,242 @@
+/* Root Variables */
+:root {
+    --primary-color: #fbceb5;
+    --secondary-color: #ffffff;
+    --text-color: #000000;
+    --placeholder-color: rgba(255, 255, 255, 0.8);
+    --input-bg: rgba(255, 255, 255, 0.4);
+    --input-border: rgba(255, 255, 255, 0.4);
+}
+
+body {
+    font-family: 'Lato', Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--text-color);
+    position: relative;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    margin: 0;
+}
+
+body:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4); 
+    z-index: 0;
+}
+
+.ftco-section {
+    padding: 4em 0;
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    z-index: 1;
+}
+
+.heading-section {
+    font-size: 28px;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-bottom: 1.5em;
+}
+
+.login-wrap {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 40px;
+    border-radius: 10px;
+    position: relative;
+    color: var(--secondary-color);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.login-wrap h3 {
+    font-weight: 300;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-bottom: 1.5em;
+}
+
+.form-group {
+    position: relative;
+    margin-bottom: 1.5em;
+}
+
+.form-control {
+    background: var(--input-bg);
+    border: none;
+    height: 50px;
+    color: var(--secondary-color) !important;
+    border-radius: 40px;
+    padding-left: 20px;
+    padding-right: 50px;
+    transition: 0.3s;
+    width: calc(100% - 40px);
+    margin: 0 auto;
+}
+
+.form-control::placeholder {
+    color: var(--placeholder-color);
+}
+
+.form-control:hover, 
+.form-control:focus {
+    background: transparent;
+    outline: none;
+    box-shadow: none;
+    border: 1px solid var(--input-border);
+}
+
+.field-icon {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    color: var(--secondary-color);
+    cursor: pointer;
+}
+
+.btn {
+    cursor: pointer;
+    border-radius: 40px;
+    font-size: 15px;
+    text-transform: uppercase;
+    width: 100%;
+    padding: 15px;
+    transition: 0.3s;
+    border: none;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    color: var(--text-color);
+}
+
+.btn-primary:hover {
+    background: transparent;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+
+.w-50 {
+    width: 50%;
+}
+
+.text-md-right {
+    text-align: right;
+}
+
+.text-md-right a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.text-md-right a:hover {
+    color: var(--primary-color);
+}
+
+/* Full Height for section */
+.js-fullheight {
+    height: 100vh;
+}
+
+/* Utility */
+.d-md-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.mb-4 {
+    margin-bottom: 1.5rem;
+}
+.px-3 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+.text-center {
+    text-align: center;
+}
+
+/* Social buttons */
+.social a {
+    display: inline-block;
+    width: 48%;
+    padding: 10px;
+    border-radius: 5px;
+    background: var(--secondary-color);
+    color: var(--text-color);
+    text-align: center;
+    margin-bottom: 10px;
+    transition: 0.3s;
+    text-decoration: none;
+}
+
+.social a:hover {
+    background: var(--primary-color);
+    color: var(--secondary-color);
+}
+
+/* Register page adjustments */
+.password-section {
+    display: flex;
+    gap: 20px;
+}
+
+.password-requirements {
+    display: none;
+    border: 1px solid var(--input-border);
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    position: absolute;
+    z-index: 1000;
+    width: 100%;
+    top: 100%;
+    left: 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 5px;
+}
+
+.password-requirements ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.password-requirements li {
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    font-size: 0.9em;
+}
+
+.password-requirements li.valid {
+    color: green;
+}
+
+.password-requirements li.invalid {
+    color: red;
+}
+
+.password-requirements li::before {
+    content: '✖';
+    display: inline-block;
+    width: 20px;
+    margin-right: 5px;
+}
+
+.password-requirements li.valid::before {
+    content: '✔';
+}

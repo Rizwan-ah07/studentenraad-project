@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Register - Student Council Portal</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
@@ -9,83 +10,217 @@
     <link rel="stylesheet" href="/css/style.css">
     <script src="https://kit.fontawesome.com/380b1a3386.js" crossorigin="anonymous"></script>
 
+    <style>
+        /* Custom styling for responsive behavior */
+        body {
+            font-family: 'Lato', Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.8;
+            color: #ffffff;
+            background-image: url(/assets/images/bg.jpg);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            margin: 0;
+            position: relative;
+        }
+
+        body:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4); /* This will darken the image */
+            z-index: 0;
+        }
+
+        .ftco-section {
+            padding: 4em 0;
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+            z-index: 1;
+            margin: 0 auto;
+        }
+
+        .login-wrap {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 10px;
+            position: relative;
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (min-width: 992px) {
+            .ftco-section {
+                max-width: 700px;
+            }
+
+            .login-wrap {
+                padding: 60px;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .ftco-section {
+                max-width: 800px;
+            }
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 1.5em;
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.4);
+            border: none;
+            height: 50px;
+            color: #ffffff !important;
+            border-radius: 40px;
+            padding-left: 20px;
+            padding-right: 50px;
+            transition: 0.3s;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .form-control:hover, 
+        .form-control:focus {
+            background: transparent;
+            outline: none;
+            box-shadow: none;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .field-icon {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        .btn {
+            cursor: pointer;
+            border-radius: 40px;
+            font-size: 15px;
+            text-transform: uppercase;
+            width: 100%;
+            padding: 15px;
+            transition: 0.3s;
+            border: none;
+        }
+
+        .btn-primary {
+            background: #fbceb5;
+            border: 1px solid #fbceb5;
+            color: #000000;
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            color: #fbceb5;
+            border: 1px solid #fbceb5;
+        }
+
+        .already-account {
+        color: #ffffff;
+        font-size: 1rem;
+        }
+
+        .already-account a {
+            color: #fbceb5;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .already-account a:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-
-    <main class="container register-container">
-        <section class="row justify-content-center">
-            <article class="col-md-6">
-                <header class="text-center">
-                    <img src="/assets/images/AP_logo_staand_rgb.png" alt="Logo" class="brand-logo">
-                </header>
-                <article class="form-card">
-                    <h3 class="text-center">Create an Account</h3>
-                    <% if (error) { %>
-                        <aside class="alert alert-danger mt-3">
-                            <%= error %>
-                        </aside>
-                    <% } %>
-                    <form id="registerForm" action="/register" method="POST" class="mt-4">
-                        <fieldset class="form-group d-flex align-items-center">
-                            <label for="username" class="mr-2">Username</label>
-                            <input type="text" class="form-control mb-0" id="username" name="username" required autofocus>
-                            <button type="button" id="random-username-btn" class="btn btn-light random-button">
-                                <i class="fas fa-dice"></i>
-                            </button>
-                        </fieldset>
-                        <fieldset class="form-group">
-                            <label for="email" class="mb-2">School Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                        </fieldset>
-
-
-
-                        <section class="form-group">
-                            <label for="course" class="mb-2">Select Your Course</label>
-                            <select class="form-control" id="course" name="course" required>
-                                <option value="" disabled selected>-- Select Your Course --</option>
-                                <option value="Graduaat Programmeren">Graduaat Programmeren</option>
-                                <option value="Bachelor Toegepaste Informatica">Bachelor Toegepaste Informatica</option>
-                                <option value="Bachelor Communicatie">Bachelor Communicatie</option>
-                                <option value="Bachelor Elektronica-ICT">Bachelor Elektronica-ICT</option>
-                                <option value="Bachelor Grafische en Digitale Media">Bachelor Grafische en Digitale Media</option>
-                                <option value="Graduaat Internet of Things">Graduaat Internet of Things</option>
-                                <option value="Bachelor Journalistiek">Bachelor Journalistiek</option>
-                                <option value="Graduaat Systeem- en Netwerkbeheer">Graduaat Systeem- en Netwerkbeheer</option>
-                            </select>
-                        </section>
-
-
-                        <section class="form-row password-section">
-                            <fieldset class="form-group col-md-6">
-                                <label for="password" class="mb-2">Password</label>
-                                <input type="password" class="form-control" id="password" name="password" required aria-describedby="passwordHelp" autocomplete="new-password" aria-required="true">
-                                <!-- Password Requirements Dropdown -->
-                                <aside id="passwordHelp" class="password-requirements" aria-live="polite">
-                                    <ul>
-                                        <li id="length" class="invalid">At least 8 characters</li>
-                                        <li id="uppercase" class="invalid">At least one uppercase letter</li>
-                                        <li id="number" class="invalid">At least one number</li>
-                                        <li id="symbol" class="invalid">At least one special symbol (!@#$%^&*)</li>
-                                    </ul>
-                                </aside>
-                            </fieldset>
-                            <fieldset class="form-group col-md-6">
-                                <label for="passwordConfirm" class="mb-2">Confirm Password</label>
-                                <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" required autocomplete="new-password">
-                            </fieldset>
-                        </section>
-
-                        <p id="passwordError" class="error-message">Passwords do not match. Please try again.</p>
-                        <button type="submit" class="btn btn-success btn-block">Register</button>
-                        <p class="text-center mt-3">
-                            Already have an account? <a href="/login">Login here</a>
-                        </p>
-                    </form>
-                </article>
-            </article>
-        </section>
-    </main>
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-12 text-center mb-5">
+                    <h2 class="heading-section">Register - Student Council Portal</h2>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-12 col-lg-8">
+                    <div class="login-wrap p-0">
+                        <h3 class="mb-4 text-center">Create an Account</h3>
+                        <% if (error) { %>
+                            <aside class="alert alert-danger mt-3">
+                                <%= error %>
+                            </aside>
+                        <% } %>
+                        <form id="registerForm" action="/register" method="POST" class="signin-form">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Username" required autofocus>
+                                <span toggle="#username" class="fa fa-fw fa-dice field-icon toggle-password" id="random-username-btn"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="School Email" required>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" id="course" name="course" required>
+                                    <option value="" disabled selected>-- Select Your Course --</option>
+                                    <option value="Graduaat Programmeren">Graduaat Programmeren</option>
+                                    <option value="Bachelor Toegepaste Informatica">Bachelor Toegepaste Informatica</option>
+                                    <option value="Bachelor Communicatie">Bachelor Communicatie</option>
+                                    <option value="Bachelor Elektronica-ICT">Bachelor Elektronica-ICT</option>
+                                    <option value="Bachelor Grafische en Digitale Media">Bachelor Grafische en Digitale Media</option>
+                                    <option value="Graduaat Internet of Things">Graduaat Internet of Things</option>
+                                    <option value="Bachelor Journalistiek">Bachelor Journalistiek</option>
+                                    <option value="Graduaat Systeem- en Netwerkbeheer">Graduaat Systeem- en Netwerkbeheer</option>
+                                </select>
+                            </div>
+                            <div class="form-row password-section">
+                                <div class="form-group col-md-6">
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required aria-describedby="passwordHelp" autocomplete="new-password">
+                                    <aside id="passwordHelp" class="password-requirements" aria-live="polite">
+                                        <ul>
+                                            <li id="length" class="invalid">At least 8 characters</li>
+                                            <li id="uppercase" class="invalid">At least one uppercase letter</li>
+                                            <li id="number" class="invalid">At least one number</li>
+                                            <li id="symbol" class="invalid">At least one special symbol (!@#$%^&*)</li>
+                                        </ul>
+                                    </aside>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" placeholder="Confirm Password" required autocomplete="new-password">
+                                </div>
+                            </div>
+                            <p id="passwordError" class="error-message">Passwords do not match. Please try again.</p>
+                            <div class="form-group">
+                                <button type="submit" class="form-control btn btn-primary submit px-3">Register</button>
+                            </div>
+                            <div class="form-group d-md-flex">
+                                <div class="form-group text-center mt-4">
+                                    <p class="already-account">
+                                        Already have an account? <a href="/login">Login here</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/[email protected]/dist/umd/popper.min.js"></script>
