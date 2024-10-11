@@ -12,6 +12,7 @@ import { connect } from "./database";
 import { forgotPasswordRouter } from "./routers/forgotPasswordRouter";
 import { resetPasswordRouter } from "./routers/resetPasswordRouter";
 import { postRouter } from "./routers/postRouter";
+import { announcementRouter } from "./routers/announcementRouter";
 
 dotenv.config();
 const app: Express = express();
@@ -42,6 +43,7 @@ app.use(verificationPendingRouter());
 app.use(forgotPasswordRouter());
 app.use(resetPasswordRouter());
 app.use(postRouter());
+app.use(announcementRouter());
 
 // 404 Error handler
 app.use((_, res) => {
